@@ -11,105 +11,34 @@
 
 <body>
 
-  <!-- navbar-->
-  <header class="topbar">
-    <h1>NONNA</h1>
-    <a class="nav-link" href="/categories.html">Categorias</a>
-    <a class="nav-link" href="/products.html">Productos</a>
-    <!-- buscador-->
-    <input id="searchBox" class="search" type="text" placeholder="Buscar…">
-    <button class="btn btn-add" onclick="openCreateForm()">＋ Añadir</button><!-- click btn llama a la funcion-->
-    <span id="authSection"></span>
+  <script src="load-navbar.js" defer></script>
 
-
-  </header>
-
-  <main class="wrapper">
+  <main class="wrapper" style="padding-top:4rem;">
     <h1>Productos</h1>
     <br>
+    <button class="btn btn-add mb-4" onclick="openCreateForm()">＋ Añadir producto</button>
+    <br> <br> <br>
 
-
-    <section id="formBox" class="card form-card">
-      <button class="btn-close" onclick="hideForm()">✕</button> <!-- click en la x, llama a la funcion hideForm -->
+    <!-- Formulario -->
+    <section id="formBox" class="card form-card" style="display:none; margin-bottom:1.5rem;">
+      <button class="btn-close" onclick="hideForm()">✕</button>
       <h2 id="formTitle">Crear producto</h2>
-
-      <input type="hidden" id="product-id"> <!-- pasamos el id, si el js no lo encuentra sabe que es creacion -->
-
-      <!-- campo select que muestra las tiendas (se carga en js) -->
+      <input type="hidden" id="product-id">
       <select id="category" class="input" required></select>
-
       <input id="name" class="input" type="text" placeholder="Nombre *" required>
-      <input id="description" class="input" type="text" step="0.01" placeholder="Descripcion *" required>
+      <input id="description" class="input" type="text" placeholder="Descripción *" required>
       <input id="price" class="input" type="number" placeholder="Precio *" required>
       <input id="image" type="file" accept="image/*" class="input">
-
       <button id="btnSave" class="btn btn-save">Guardar</button>
     </section>
 
-    <!-- seccion donde renderizaremos las tarjetas -->
+    <!-- Grid de productos -->
     <section id="productsGrid" class="grid"></section>
-
   </main>
 
-  <script type="module">
-    import { isLoggedIn, logout, login } from './auth.js';
-
-    const authSection = document.getElementById('authSection');
-
-    if (isLoggedIn()) {
-      authSection.innerHTML = '<button class="btn" onclick="logout()">Cerrar sesión</button>';
-    } else {
-      authSection.innerHTML = '<button class="btn" onclick="document.getElementById(\'loginModal\').style.display=\'flex\'">Iniciar sesión</button>';
-    }
-
-    window.logout = logout;
-
-    window.handleLogin = async () => {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      try {
-        await login(email, password);
-        location.reload();
-      } catch (err) {
-        alert('Login fallido: ' + (err.message || JSON.stringify(err)));
-        console.error(err);
-      }
-    };
-  </script>
-
-  <div id="productDetailsModal" class="modal"
-    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
-
-    <div id="productDetailsContent" class="modal-content" style="
-    background: linear-gradient(135deg, #ffffff, #f3f3f3);
-    padding: 2.5rem 3rem;
-    border-radius: 16px;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    font-family: 'Segoe UI', sans-serif;
-    color: #333;
-    text-align: center;
-  ">
-      <!-- Contenido dinámico del producto se inyecta aquí -->
-    </div>
-
-  </div>
-
-  </div>
-
-  <!-- Modal de login -->
-  <div id="loginModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-       background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-    <div class="modal-content" style="background:white; padding:2rem; border-radius:8px; max-width:300px; margin:auto;">
-      <h2>Iniciar Sesión</h2>
-      <input id="loginEmail" class="input" type="email" placeholder="Correo">
-      <input id="loginPassword" class="input" type="password" placeholder="Contraseña">
-      <button onclick="handleLogin()" class="btn btn-save" style="margin-right:10px;">Entrar</button>
-      <button onclick="document.getElementById('loginModal').style.display='none'" class="btn-close">✕</button>
-    </div>
-  </div>
-
+  <!-- Modales -->
+  <div id="productDetailsModal" class="modal">…</div>
+  <div id="loginModal" class="modal">…</div>
 
 </body>
 

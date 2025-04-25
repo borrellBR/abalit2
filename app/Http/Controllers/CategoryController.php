@@ -11,17 +11,21 @@ class CategoryController extends Controller
   //muestra la lista de tiendas, con busqueda opcional
   public function index(Request $request)
   {
-    $q = $request->query('q');
+    if ($request->filled('latest')) {
+      $qty = (int) $request->query('latest', 5);
+      return Category::orderByDesc('created_at')
+        ->take($qty)
+        ->get();
+    }
 
-    return Category::when($q, function ($query) use ($q) {
-      $query->where(function ($q2) use ($q) {
-        $q2->where('name', 'LIKE', "%$q%")
-          ->orWhere('description', 'LIKE', "%$q%");
-      });
-    })
-      ->orderBy('created_at', 'desc')
+    $q = $request->query('q');
+    return Category::when($q, fn($q1) =>
+      $q1->where('name', 'like', "%$q%")
+        ->orWhere('description', 'like', "%$q%"))
+      ->orderByDesc('created_at')
       ->get();
   }
+
 
 
   // metodo para crear una tienda (ruta post /api/stores)

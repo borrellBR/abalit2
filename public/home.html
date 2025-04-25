@@ -6,86 +6,60 @@
   <meta charset="UTF-8">
   <title>Nonna Home</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .hero {
-      position: relative;
-      height: 380px;
-      border-radius: 18px;
-      overflow: hidden
-    }
 
-    .hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover
-    }
-
-    .hero-text {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      backdrop-filter: brightness(.6)
-    }
-
-    .btn-white {
-      background: #fff;
-      color: #000;
-      padding: .6rem 1.5rem;
-      border-radius: 25px;
-      font-weight: 600
-    }
-
-    .section-title {
-      margin: 2.5rem 0 1rem;
-      font-size: 1.4rem
-    }
-
-    .grid-new article {
-      min-width: 200px;
-      max-width: 240px
-    }
-
-    .grid-cat article {
-      min-width: 150px;
-      max-width: 180px
-    }
-  </style>
 </head>
 
-<body class="wrapper">
+<body>
 
-  <!-- tu topbar existente -->
+  <!-- Topbar -->
   <header class="topbar">
-    <img src="logo.png" style="height:28px">
+    <a href="home.html">
+      <img id="logo" src="img/logo.png" alt="Nonna Logo">
+    </a>
     <nav>
+      <a class="nav-link" href="categories.html">Categorías</a>
       <a class="nav-link" href="products.html">Productos</a>
-      <a class="nav-link" href="pedidos.html">Pedidos</a>
-      <a class="nav-link" href="cuenta.html">Cuenta</a>
+      <a class="nav-link" href="orders.html">Pedidos</a>
+      <a class="nav-link" href="account.html">Cuenta</a>
     </nav>
+
+    <!-- Nueva sección derecha -->
+    <div class="actions">
+      <input type="search" placeholder="Buscar…">
+      <div class="cart" onclick="location.href='cart.html'">
+        <!-- Un SVG simple de carrito -->
+        <svg viewBox="0 0 24 24">
+          <path d="M7 4h-2l-3 9v2h2a3 3 0 1 0 6 0h6a3 3 0 1 0 6 0h2v-2l-3-9h-2" />
+        </svg>
+        <span class="badge">0</span>
+      </div>
+    </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero, secciones... -->
   <section class="hero">
-    <img src="img/hero.jpg" alt="">
     <div class="hero-text">
       <h1>THE BEDROOM COLLECTION</h1>
       <a href="#newin" class="btn-white">Explorar colección</a>
     </div>
   </section>
 
+
   <!-- New In -->
-  <h2 id="newin" class="section-title">New In</h2>
-  <div id="newGrid" class="grid grid-new"></div>
+  <section class="section-block">
+    <div class="section-head">
+      <h2 id="newin" class="section-title">New In</h2>
+      <a href="products.html" class="see-all">Ver todo</a>
+    </div>
+    <div id="newGrid" class="grid-new"></div>
+  </section>
 
   <!-- Categorías populares -->
   <h2 class="section-title">Categorías populares</h2>
-  <div id="catGrid" class="grid grid-cat"></div>
+  <div id="catGrid" class="grid-cat"></div>
 
   <script type="module" src="home.js"></script>
+
 </body>
 
 </html>

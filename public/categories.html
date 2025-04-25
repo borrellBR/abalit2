@@ -3,96 +3,50 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Gestor de Productos</title>
+  <title>Gestor de Categorías</title>
   <link rel="stylesheet" href="styles.css">
   <script src="categories.js" defer></script>
+
 </head>
 
 <body>
-  <header class="topbar">
-    <h1>NONNA</h1>
-    <a class="nav-link" href="/categories.html">Categorias</a>
-    <a class="nav-link" href="/products.html">Productos</a>
-    <input id="searchBox" class="search" type="text" placeholder="Buscar…">
-    <button class="btn btn-add" onclick="openCreateForm()">＋ Añadir</button>
-    <span id="authSection"></span>
-  </header>
 
-  <main class="wrapper">
-    <h1>Categorias</h1>
+  <script src="load-navbar.js" defer></script>
+
+
+  <main class="wrapper" style="padding-top:4rem;">
+    <h1>Categorías</h1>
+
     <br>
+    <button class="btn btn-add mb-4" onclick="openCreateForm()">＋ Añadir Categorias</button>
+    <br> <br> <br>
 
+    <!-- Formulario -->
+    <section id="formBox" class="card form-card" style="display:none; margin-bottom:1.5rem;">
+      <button class="btn-close" onclick="hideForm()">✕</button>
+      <h2 id="formTitle">Crear Categoría</h2>
+      <input type="hidden" id="category-id">
+      <input id="name" class="input" type="text" placeholder="Nombre *" required>
+      <input id="description" class="input" type="text" placeholder="Descripción *" required>
+      <input id="image" type="file" accept="image/*" class="input">
+      <button id="btnSave" class="btn btn-save">Guardar</button>
+    </section>
+
+    <!-- Grid de categorías -->
     <section id="categoriesSection">
-      <section id="formBox" class="card form-card">
-        <button class="btn-close" onclick="hideForm()">✕</button>
-        <h2 id="formTitle">Crear Categoria</h2>
-        <input type="hidden" id="category-id">
-        <input id="name" class="input" type="text" placeholder="Nombre *" required>
-        <input id="description" class="input" type="text" placeholder="Dirección *" required>
-        <input id="image" type="file" accept="image/*" class="input">
-
-        <button id="btnSave" class="btn btn-save">Guardar</button>
-      </section>
       <section id="categoriesGrid" class="grid"></section>
     </section>
 
-    <section id="productsSection" style="display:none">
-      <button class="btn btn-add mb-3" onclick="hideProducts()">← Volver a Tiendas</button>
-      <h2 id="productsTitle" class="mb-4"></h2>
+    <!-- Productos de categoría -->
+    <section id="productsSection" style="display:none; margin-top:2rem;">
+      <button class="btn btn-add mb-3" onclick="hideProducts()">← Volver a Categorías</button>
+      <h2 id="productsTitle"></h2>
       <section id="productsGrid" class="grid"></section>
     </section>
   </main>
 
-  <!-- Modal de login -->
-  <div id="loginModal" class="modal"
-    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-    <div class="modal-content" style="background:white; padding:2rem; border-radius:8px; max-width:300px; margin:auto;">
-      <h2>Iniciar Sesión</h2>
-      <input id="loginEmail" class="input" type="email" placeholder="Correo" style="display:block; margin-bottom:10px;">
-      <input id="loginPassword" class="input" type="password" placeholder="Contraseña"
-        style="display:block; margin-bottom:10px;">
-      <button onclick="handleLogin()" class="btn btn-save" style="margin-right:10px;">Entrar</button>
-      <button onclick="document.getElementById('loginModal').style.display='none'" class="btn-close">✕</button>
-      <p style="margin-top: 10px; text-align: center;">
-        <a href="register.html" style="color: #666; text-decoration: underline;">¿No tienes cuenta? Regístrate</a>
-      </p>
-    </div>
-  </div>
-
-  <script type="module">
-    import { isLoggedIn, logout, login } from './auth.js';
-
-    const authSection = document.getElementById('authSection');
-
-    function updateAuthUI() {
-      if (isLoggedIn()) {
-        authSection.innerHTML = '<button class="btn" onclick="logout()">Cerrar sesión</button>';
-      } else {
-        authSection.innerHTML = '<button class="btn" onclick="document.getElementById(\'loginModal\').style.display=\'flex\'">Iniciar sesión</button>';
-      }
-    }
-
-    updateAuthUI();
-
-    window.logout = () => {
-      logout();
-      updateAuthUI();
-    };
-
-    window.handleLogin = async () => {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      try {
-        await login(email, password);
-        document.getElementById('loginModal').style.display = 'none';
-        updateAuthUI();
-        getCategories();
-      } catch (err) {
-        alert('Login fallido: ' + (err.message || JSON.stringify(err)));
-        console.error(err);
-      }
-    };
-  </script>
+  <!-- Modal login -->
+  <div id="loginModal" class="modal">…</div>
 
 </body>
 

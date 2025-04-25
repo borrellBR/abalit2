@@ -1,3 +1,4 @@
+
 // Escapa caracteres peligrosos para evitar inyecciones HTML
 const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
@@ -90,13 +91,8 @@ async function getCategories(q = '') {
   renderCategories(data);
 }
 
-async function saveCategory() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    document.getElementById('loginModal').style.display = 'flex';
-    return;
-  }
 
+async function saveCategory() {
   const id = document.getElementById('category-id').value;
   const fd = new FormData();
   fd.append('name', document.getElementById('name').value.trim());
@@ -105,33 +101,23 @@ async function saveCategory() {
     fd.append('image', document.getElementById('image').files[0]);
   if (id) fd.append('_method', 'PUT');          // spoof para editar
 
-  try {
-    const res = await fetch(id ? `/api/categories/${id}` : '/api/categories', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      },
-      body: fd
-    });
+  await fetch(id ? `/api/categories/${id}` : '/api/categories', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+      'Accept': 'application/json',       // clava esto
+      'X-Requested-With': 'XMLHttpRequest'       // opcional, pero ayuda
+    },
+    body: fd
+  });
 
-    if (res.status === 401) {
-      localStorage.removeItem('token');
-      document.getElementById('loginModal').style.display = 'flex';
-      return;
-    }
 
-    if (!res.ok) {
-      throw new Error('Error al guardar la categoría');
-    }
 
-    hideForm();
-    getCategories();
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error al guardar la categoría. Por favor, intente nuevamente.');
-  }
+
+  hideForm();
+  getCategories();
 }
+
 
 async function deleteCategory(id) {
   if (!confirm('¿Eliminar tienda?')) return;
@@ -151,7 +137,7 @@ function renderCategories(list) {
   grid.innerHTML = '';
 
   list.forEach(c => {
-    const imgSrc = c.image ? `/storage/${c.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+    const imgSrc = c.image ? `/storage/${c.image}` : '';
 
     grid.insertAdjacentHTML('beforeend', `
       <article class="card"
@@ -173,25 +159,51 @@ function renderCategories(list) {
   });
 }
 
+function hideProducts() {
+  productsSection.style.display = 'none';
+  categoriesSection.style.display = 'block';
+}
+
 async function showProducts(categoryId, categoryName) {
   categoriesSection.style.display = 'none';
   productsSection.style.display = 'block';
   productsTitle.textContent = `Productos de: ${categoryName}`;
 
-  const res = await fetch(`/api/categories/${categoryId}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
+  const token = localStorage.getItem('token');
+  const res = await fetch(
+    `/api/categories/${categoryId}`,
+    {
+      method: 'GET',  // 👉 forzar GET
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+      }
     }
-  });
+  );
+
+  if (res.status === 401) {
+    // no autenticado
+    localStorage.removeItem('token');
+    alert('Por favor inicia sesión para ver los productos.');
+    return;
+  }
+
+  if (!res.ok) {
+    console.error('Error al cargar productos de la categoría', res.status, await res.text());
+    alert('No se pudo cargar la lista de productos');
+    return;
+  }
+
   const category = await res.json();
+
+  if (!Array.isArray(category.products)) {
+    console.warn('category.products no es un array:', category.products);
+    return;
+  }
+
   renderProducts(category.products);
 }
 
-function hideProducts() {
-  productsSection.style.display = 'none';
-  categoriesSection.style.display = 'block';
-}
 
 function renderProducts(list) {
   const grid = document.getElementById('productsGrid');
@@ -200,31 +212,23 @@ function renderProducts(list) {
   list.forEach(p => {
     const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
 
-    // codificamos parámetros para el modal y la edición
-    const name = encodeURIComponent(p.name);
-    const description = encodeURIComponent(p.description);
-    const price = encodeURIComponent(p.price);
-
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card"
-        onclick="showProductDetails('${esc(p.name)}', '${esc(p.description)}',
-                                   '${esc(p.price)}', '${p.category?.name || 'Sin categoría'}')">
-
+      <article class="card">
         <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
         <h3>${esc(p.name)}</h3>
         <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
         <small>Descripción: ${esc(p.description)}</small>
         <small>Precio: ${esc(p.price)} €</small>
-
         <div class="actions">
           <button class="btn btn-edit"
-            onclick="event.stopPropagation();
-                     handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
-                     '${name}', '${description}', '${price}')">
+            onclick="handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
+                                      '${encodeURIComponent(p.name)}',
+                                      '${encodeURIComponent(p.description)}',
+                                      '${encodeURIComponent(p.price)}')">
             Editar
           </button>
           <button class="btn btn-delete"
-            onclick="event.stopPropagation(); deleteProduct(${p.id})">
+            onclick="deleteProduct(${p.id})">
             Eliminar
           </button>
         </div>

@@ -9,18 +9,27 @@ class ProductController extends Controller
 
 
   // metodo index que equivale a get/api/products
+// … arriba mantienen lo que ya tenías
   public function index(Request $request)
   {
-    $q = $request->query('q');
+    // ↓ NUEVO: productos más recientes
+    if ($request->filled('latest')) {
+      $qty = (int) $request->query('latest', 3);
+      return Product::with('category')
+        ->orderByDesc('created_at')
+        ->take($qty)
+        ->get();
+    }
 
-    return Product::when($q, function ($query) use ($q) {
-      $query->where(function ($q2) use ($q) {
-        $q2->where('name', 'LIKE', "%$q%");
-      });
-    })
-      ->orderBy('created_at', 'desc')
+    // ↓ lo que ya tenías …
+    $q = $request->query('q');
+    return Product::when($q, fn($q1) =>
+      $q1->where('name', 'like', "%$q%"))
+      ->with('category')
+      ->orderByDesc('created_at')
       ->get();
   }
+
 
 
   // metodo store para crear productos (post /api/products)
