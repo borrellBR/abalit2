@@ -33,7 +33,12 @@ class ProductController extends Controller
       'name' => 'required|max:100', //debe tener nombre
       'description' => 'required|max:100', //debe tener nombre
       'price' => 'required|integer', //debe tener un numero de stock
+      'image' => 'nullable|image|max:2048'   // 👈
+
     ]);
+    if ($r->hasFile('image')) {
+      $data['image'] = $r->file('image')->store('products', 'public');
+    }
 
     // creamos y devolvemos el producto con los datos nuevos
     return Product::create($data);
@@ -45,7 +50,7 @@ class ProductController extends Controller
   public function show($id)
   {
     // muestra un porducto concreto con su tienda
-    return Product::with('store')->findOrFail($id); // lanza 404 si no lo encuentra
+    return Product::with('category')->findOrFail($id); // lanza 404 si no lo encuentra
   }
 
 
@@ -56,16 +61,23 @@ class ProductController extends Controller
     $product = Product::findOrFail($id); // obtiene el producto por su id, sino lanza 404
 
     // valida los datos del producto
+    // update (añade image y usa store PUT=POST+_method)
+
     $data = $r->validate([
-      'category_id' => 'required|exists:categories,id', // debe existir la tienda
-      'name' => 'required|max:100', //debe tener nombre
-      'description' => 'required|max:100', //debe tener nombre
-      'price' => 'required|integer', //debe tener un numero de stock
+      'category_id' => 'required|exists:categories,id',
+      'name' => 'required|max:100',
+      'description' => 'required|max:255',
+      'price' => 'required|numeric',
+      'image' => 'nullable|image|max:2048'
     ]);
 
-    // aplicamos metodo update y pasamos los datos nuevos
+    if ($r->hasFile('image')) {
+      $data['image'] = $r->file('image')->store('products', 'public');
+    }
+
     $product->update($data);
-    return $product; // devolvemos el producto actualizado
+    return $product;
+
   }
 
   // metodo para eliminar un producto existente (delete /api/products/{id})

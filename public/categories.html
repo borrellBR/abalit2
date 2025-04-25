@@ -10,15 +10,13 @@
 
 <body>
   <header class="topbar">
-    <h1>ABALIT</h1>
+    <h1>NONNA</h1>
     <a class="nav-link" href="/categories.html">Categorias</a>
     <a class="nav-link" href="/products.html">Productos</a>
     <input id="searchBox" class="search" type="text" placeholder="Buscar…">
     <button class="btn btn-add" onclick="openCreateForm()">＋ Añadir</button>
     <span id="authSection"></span>
   </header>
-
-
 
   <main class="wrapper">
     <h1>Categorias</h1>
@@ -31,6 +29,8 @@
         <input type="hidden" id="category-id">
         <input id="name" class="input" type="text" placeholder="Nombre *" required>
         <input id="description" class="input" type="text" placeholder="Dirección *" required>
+        <input id="image" type="file" accept="image/*" class="input">
+
         <button id="btnSave" class="btn btn-save">Guardar</button>
       </section>
       <section id="categoriesGrid" class="grid"></section>
@@ -53,6 +53,9 @@
         style="display:block; margin-bottom:10px;">
       <button onclick="handleLogin()" class="btn btn-save" style="margin-right:10px;">Entrar</button>
       <button onclick="document.getElementById('loginModal').style.display='none'" class="btn-close">✕</button>
+      <p style="margin-top: 10px; text-align: center;">
+        <a href="register.html" style="color: #666; text-decoration: underline;">¿No tienes cuenta? Regístrate</a>
+      </p>
     </div>
   </div>
 
@@ -61,27 +64,35 @@
 
     const authSection = document.getElementById('authSection');
 
-    if (isLoggedIn()) {
-      authSection.innerHTML = '<button class="btn" onclick="logout()">Cerrar sesión</button>';
-    } else {
-      authSection.innerHTML = '<button class="btn" onclick="document.getElementById(\'loginModal\').style.display=\'flex\'">Iniciar sesión</button>';
+    function updateAuthUI() {
+      if (isLoggedIn()) {
+        authSection.innerHTML = '<button class="btn" onclick="logout()">Cerrar sesión</button>';
+      } else {
+        authSection.innerHTML = '<button class="btn" onclick="document.getElementById(\'loginModal\').style.display=\'flex\'">Iniciar sesión</button>';
+      }
     }
 
-    window.logout = logout;
+    updateAuthUI();
+
+    window.logout = () => {
+      logout();
+      updateAuthUI();
+    };
 
     window.handleLogin = async () => {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       try {
         await login(email, password);
-        location.reload();
+        document.getElementById('loginModal').style.display = 'none';
+        updateAuthUI();
+        getCategories();
       } catch (err) {
         alert('Login fallido: ' + (err.message || JSON.stringify(err)));
         console.error(err);
       }
     };
   </script>
-
 
 </body>
 

@@ -1,4 +1,3 @@
-
 // Escapa caracteres peligrosos para evitar inyecciones HTML
 const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
@@ -62,40 +61,76 @@ function hideForm() {
 }
 
 async function getCategories(q = '') {
-  const res = await fetch(`/api/categories${q ? `?q=${encodeURIComponent(q)}` : ''}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
-    }
-  });
+  const token = localStorage.getItem('token');
+  const headers = { 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`/api/categories${q ? `?q=${encodeURIComponent(q)}` : ''}`, { headers });
+
+  // 401 → mandar al login y salir
+  if (res.status === 401) {
+    localStorage.removeItem('token');              // token inválido
+    document.getElementById('loginModal').style.display = 'flex';
+    return;
+  }
+
+  // cualquier otro error
+  if (!res.ok) {
+    console.error('Error al cargar categorías', await res.text());
+    alert('No se pudieron cargar las categorías');
+    return;
+  }
+
   const data = await res.json();
+  if (!Array.isArray(data)) {
+    console.warn('Formato inesperado:', data);
+    return;
+  }
+
   renderCategories(data);
 }
 
 async function saveCategory() {
-  const id = document.getElementById('category-id').value;
-  const payload = {
-    name: document.getElementById('name').value.trim(),
-    description: document.getElementById('description').value.trim(),
-  };
-
-  if (!payload.name || !payload.description) {
-    alert('Faltan campos obligatorios');
+  const token = localStorage.getItem('token');
+  if (!token) {
+    document.getElementById('loginModal').style.display = 'flex';
     return;
   }
 
-  await fetch(id ? `/api/categories/${id}` : '/api/categories', {
-    method: id ? 'PUT' : 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify(payload)
-  });
+  const id = document.getElementById('category-id').value;
+  const fd = new FormData();
+  fd.append('name', document.getElementById('name').value.trim());
+  fd.append('description', document.getElementById('description').value.trim());
+  if (document.getElementById('image').files[0])
+    fd.append('image', document.getElementById('image').files[0]);
+  if (id) fd.append('_method', 'PUT');          // spoof para editar
 
-  hideForm();
-  getCategories();
+  try {
+    const res = await fetch(id ? `/api/categories/${id}` : '/api/categories', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      },
+      body: fd
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      document.getElementById('loginModal').style.display = 'flex';
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error('Error al guardar la categoría');
+    }
+
+    hideForm();
+    getCategories();
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error al guardar la categoría. Por favor, intente nuevamente.');
+  }
 }
 
 async function deleteCategory(id) {
@@ -115,15 +150,19 @@ function renderCategories(list) {
   const grid = document.getElementById('categoriesGrid');
   grid.innerHTML = '';
 
-  list.forEach(s => {
+  list.forEach(c => {
+    const imgSrc = c.image ? `/storage/${c.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+
     grid.insertAdjacentHTML('beforeend', `
       <article class="card"
-        data-id="${s.id}"
-        data-name="${esc(s.name)}"
-        data-description="${esc(s.description)}"
+        data-id="${c.id}"
+        data-name="${esc(c.name)}"
+        data-description="${esc(c.description)}"
       >
-        <h3>${esc(s.name)}</h3>
-        <small>${esc(s.description)}</small>
+        <img src="${imgSrc}" class="thumb" alt="${esc(c.name)}">
+        <h3>${esc(c.name)}</h3>
+        <small>${esc(c.description)}</small>
+
         <div class="actions">
           <button class="btn btn-edit">Editar</button>
           <button class="btn btn-delete">Eliminar</button>
@@ -159,11 +198,36 @@ function renderProducts(list) {
   grid.innerHTML = '';
 
   list.forEach(p => {
+    const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+
+    // codificamos parámetros para el modal y la edición
+    const name = encodeURIComponent(p.name);
+    const description = encodeURIComponent(p.description);
+    const price = encodeURIComponent(p.price);
+
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card">
+      <article class="card"
+        onclick="showProductDetails('${esc(p.name)}', '${esc(p.description)}',
+                                   '${esc(p.price)}', '${p.category?.name || 'Sin categoría'}')">
+
+        <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
         <h3>${esc(p.name)}</h3>
-        <small>Descripcion:${esc(p.description)}</small>
-        <small>Precio: ${esc(p.price)}€</small>
+        <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
+        <small>Descripción: ${esc(p.description)}</small>
+        <small>Precio: ${esc(p.price)} €</small>
+
+        <div class="actions">
+          <button class="btn btn-edit"
+            onclick="event.stopPropagation();
+                     handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
+                     '${name}', '${description}', '${price}')">
+            Editar
+          </button>
+          <button class="btn btn-delete"
+            onclick="event.stopPropagation(); deleteProduct(${p.id})">
+            Eliminar
+          </button>
+        </div>
       </article>
     `);
   });

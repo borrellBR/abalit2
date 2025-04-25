@@ -30,8 +30,15 @@ class CategoryController extends Controller
     // validacion de campos de producto (los 3 obligatorios)
     $data = $r->validate([
       'name' => 'required',
-      'description' => 'required'
+      'description' => 'required|max:255',
+      'image' => 'nullable|image|max:2048'   // 👈
+
     ]);
+    // CategoryController@store
+    if ($r->hasFile('image')) {
+      $data['image'] = $r->file('image')->store('categories', 'public');  // no 'products'
+    }
+
     return Category::create($data);
   }
 
@@ -50,17 +57,28 @@ class CategoryController extends Controller
    */
 
   // metodo para actualizar datos de tienda (put /api/stores/{id})
+  // store ya está bien. Falta update:
+
   public function update(Request $r, $id)
   {
-    $category = Category::findOrFail($id); // accede a la tienda por su id
-    $data = $r->validate([ // valida que se cumplan las normas
+    $category = Category::findOrFail($id);
+
+    $data = $r->validate([
       'name' => 'required',
-      'description' => 'required'
+      'description' => 'required|max:255',
+      'image' => 'nullable|image|max:2048'
     ]);
 
-    $category->update($data); // actualiza la tienda con los datos nuevos
-    return $category; // devuelve la tienda actualizada
+    // CategoryController@store
+    if ($r->hasFile('image')) {
+      $data['image'] = $r->file('image')->store('categories', 'public');  // no 'products'
+    }
+
+
+    $category->update($data);
+    return $category;
   }
+
 
   /**
    * Eliminar tienda (cascade elimina productos).

@@ -83,57 +83,59 @@ function handlePrepareEdit(id, categoryId, name, description, price) {
 }
 
 async function getProducts(q = '') {
-  try {
-    const res = await fetch(`/api/products${q ? `?q=${encodeURIComponent(q)}` : ''}`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Accept': 'application/json'
-      }
-    });
-    const data = await res.json();
-    renderProducts(data);
-  } catch (err) {
-    console.error('Error obteniendo productos:', err);
+  // Sólo añadimos Authorization si existe token
+  const token = localStorage.getItem('token');
+  const headers = { 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(
+    `/api/products${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+    { headers }
+  );
+
+  if (res.status === 401) {                     // usuario no logueado
+    localStorage.removeItem('token');
+    window.location.href = '/login.html';       // o muestra tu modal
+    return;
   }
+
+  if (!res.ok) {
+    console.error('Error HTTP', res.status);
+    alert('No se pudieron cargar los productos');
+    return;
+  }
+
+  const list = await res.json();
+  if (!Array.isArray(list)) {
+    console.warn('Formato inesperado', list);
+    return;
+  }
+
+  renderProducts(list);
 }
+
 
 async function saveProduct() {
   const id = document.getElementById('product-id').value;
-  const payload = {
-    category_id: parseInt(categorySelect.value),
-    name: document.getElementById('name').value.trim(),
-    description: document.getElementById('description').value.trim(),
-    price: parseFloat(document.getElementById('price').value.trim()),
-  };
+  const fd = new FormData();
+  fd.append('category_id', categorySelect.value);
+  fd.append('name', document.getElementById('name').value.trim());
+  fd.append('description', document.getElementById('description').value.trim());
+  fd.append('price', document.getElementById('price').value.trim());
+  if (document.getElementById('image').files[0])
+    fd.append('image', document.getElementById('image').files[0]);
+  if (id) fd.append('_method', 'PUT');
 
-  if (!payload.category_id || !payload.name || !payload.description || isNaN(payload.price)) {
-    alert('Faltan campos o precio no válido'); return;
-  }
+  await fetch(id ? `/api/products/${id}` : '/api/products', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+    body: fd
+  });
 
-  try {
-    const res = await fetch(id ? `/api/products/${id}` : '/api/products', {
-      method: id ? 'PUT' : 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const errData = await res.json();
-      console.error('Error 422 (Unprocessable Content):', errData);
-      alert('Error al guardar el producto. Revisa los datos.');
-      return;
-    }
-
-    hideForm();
-    getProducts();
-  } catch (err) {
-    console.error('Error guardando producto:', err);
-  }
+  hideForm();
+  getProducts();
 }
+
 
 async function deleteProduct(id) {
   if (!confirm('¿Eliminar producto?')) return;
@@ -157,22 +159,35 @@ function renderProducts(list) {
   grid.innerHTML = '';
 
   list.forEach(p => {
+    const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+
+    // codificamos parámetros para el modal y la edición
     const name = encodeURIComponent(p.name);
     const description = encodeURIComponent(p.description);
     const price = encodeURIComponent(p.price);
 
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card" onclick="showProductDetails('${esc(p.name)}', '${esc(p.description)}', '${esc(p.price)}', '${p.category?.name || 'Sin categoría'}')">
+      <article class="card"
+        onclick="showProductDetails('${esc(p.name)}', '${esc(p.description)}',
+                                   '${esc(p.price)}', '${p.category?.name || 'Sin categoría'}')">
+
+        <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
         <h3>${esc(p.name)}</h3>
         <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
-        <small>Descripcion: ${esc(p.description)}</small>
-        <small>Precio: ${esc(p.price)}€</small>
+        <small>Descripción: ${esc(p.description)}</small>
+        <small>Precio: ${esc(p.price)} €</small>
+
         <div class="actions">
           <button class="btn btn-edit"
-            onclick="event.stopPropagation(); handlePrepareEdit(${p.id}, ${p.category?.id || 'null'}, '${name}', '${description}', '${price}')">
+            onclick="event.stopPropagation();
+                     handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
+                     '${name}', '${description}', '${price}')">
             Editar
           </button>
-          <button class="btn btn-delete" onclick="event.stopPropagation(); deleteProduct(${p.id})">Eliminar</button>
+          <button class="btn btn-delete"
+            onclick="event.stopPropagation(); deleteProduct(${p.id})">
+            Eliminar
+          </button>
         </div>
       </article>
     `);
