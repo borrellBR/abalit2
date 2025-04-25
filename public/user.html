@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Productos</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="categories.js" defer></script>
+
+</head>
+
+<body>
+  <header class="topbar">
+    <h1>ABALIT</h1>
+    <a class="nav-link" href="/categories.html">Gestor Categorias</a>
+    <a class="nav-link" href="/products.html">Gestor Productos</a>
+    <input id="searchBox" class="search" type="text" placeholder="Buscar…">
+    <button class="btn btn-add" onclick="openCreateForm()">＋ Añadir</button>
+  </header>
+
+  <main class="wrapper">
+    <h1>Categorias</h1>
+    <br>
+    <section id="categoriesSection">
+      <section id="formBox" class="card form-card">
+        <button class="btn-close" onclick="hideForm()">✕</button>
+        <h2 id="formTitle">Crear Categoria</h2>
+        <input type="hidden" id="category-id">
+        <input id="name" class="input" type="text" placeholder="Nombre *" required>
+        <input id="description" class="input" type="text" placeholder="Dirección *" required>
+        <button id="btnSave" class="btn btn-save" type="button">Guardar</button>
+      </section>
+      <section id="categoriesGrid" class="grid"></section>
+    </section>
+
+    <section id="productsSection" style="display:none">
+      <button class="btn btn-add mb-3" onclick="hideProducts()">← Volver a Tiendas</button>
+      <h2 id="productsTitle" class="mb-4"></h2>
+      <section id="productsGrid" class="grid"></section>
+    </section>
+  </main>
+</body>
+
+</html>

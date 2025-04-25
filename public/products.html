@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Productos</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="products.js" defer></script>
+
+</head>
+
+<body>
+
+  <!-- navbar-->
+  <header class="topbar">
+    <h1>ABALIT</h1>
+    <a class="nav-link" href="/categories.html">Categorias</a>
+    <a class="nav-link" href="/products.html">Productos</a>
+    <!-- buscador-->
+    <input id="searchBox" class="search" type="text" placeholder="Buscar…">
+    <button class="btn btn-add" onclick="openCreateForm()">＋ Añadir</button><!-- click btn llama a la funcion-->
+    <span id="authSection"></span>
+
+
+  </header>
+
+  <main class="wrapper">
+    <h1>Productos</h1>
+    <br>
+
+
+    <section id="formBox" class="card form-card">
+      <button class="btn-close" onclick="hideForm()">✕</button> <!-- click en la x, llama a la funcion hideForm -->
+      <h2 id="formTitle">Crear producto</h2>
+
+      <input type="hidden" id="product-id"> <!-- pasamos el id, si el js no lo encuentra sabe que es creacion -->
+
+      <!-- campo select que muestra las tiendas (se carga en js) -->
+      <select id="category" class="input" required></select>
+
+      <input id="name" class="input" type="text" placeholder="Nombre *" required>
+      <input id="description" class="input" type="text" step="0.01" placeholder="Descripcion *" required>
+      <input id="price" class="input" type="number" placeholder="Precio *" required>
+      <button id="btnSave" class="btn btn-save" onclick="saveProduct()">Guardar</button>
+    </section>
+
+    <!-- seccion donde renderizaremos las tarjetas -->
+    <section id="productsGrid" class="grid"></section>
+
+  </main>
+
+  <script type="module">
+    import { isLoggedIn, logout, login } from './auth.js';
+
+    const authSection = document.getElementById('authSection');
+
+    if (isLoggedIn()) {
+      authSection.innerHTML = '<button class="btn" onclick="logout()">Cerrar sesión</button>';
+    } else {
+      authSection.innerHTML = '<button class="btn" onclick="document.getElementById(\'loginModal\').style.display=\'flex\'">Iniciar sesión</button>';
+    }
+
+    window.logout = logout;
+
+    window.handleLogin = async () => {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      try {
+        await login(email, password);
+        location.reload();
+      } catch (err) {
+        alert('Login fallido: ' + (err.message || JSON.stringify(err)));
+        console.error(err);
+      }
+    };
+  </script>
+
+  <div id="productDetailsModal" class="modal"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+
+    <div id="productDetailsContent" class="modal-content" style="
+    background: linear-gradient(135deg, #ffffff, #f3f3f3);
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    text-align: center;
+  ">
+      <!-- Contenido dinámico del producto se inyecta aquí -->
+    </div>
+
+  </div>
+
+  </div>
+
+</body>
+
+</html>

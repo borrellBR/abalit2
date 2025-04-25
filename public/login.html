@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Abalit</title>
+
+</head>
+
+<style>
+  .card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+    margin-top: 100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .btn-save {
+    padding: 0.75rem 1.5rem;
+    background: royalblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+
+
+<body class="wrapper">
+
+  <h1>Iniciar sesión</h1>
+
+  <div class="card form-card" style="max-width:400px; margin:auto;">
+    <input id="email" class="input" type="email" placeholder="Correo electrónico" required>
+    <input id="password" class="input" type="password" placeholder="Contraseña" required>
+    <button id="btnLogin" class="btn btn-save">Entrar</button>
+    <p>¿No tienes cuenta? <a href="register.html">Crear cuenta</a></p>
+  </div>
+
+  <script type="module">
+    import { login, isLoggedIn } from './auth.js';
+
+    if (isLoggedIn()) {
+      window.location.href = "/categories.html";
+    }
+
+    document.getElementById('btnLogin').addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      try {
+        await login(email, password);
+        window.location.href = "/categories.html";
+      } catch (err) {
+        alert("Credenciales incorrectas");
+        console.error(err);
+      }
+    });
+  </script>
+
+</body>
+
+</html>
