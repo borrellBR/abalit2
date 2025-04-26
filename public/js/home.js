@@ -83,11 +83,26 @@ function renderCatGrid(list) {
 
   list.forEach(c => {
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card-cat">
+      <article class="card-cat" data-id="${c.id}" style="cursor:pointer">
         <img src="${c.image ? `/storage/${c.image}` : NO_IMG}" alt="${c.name}">
         <h3>${c.name}</h3>
       </article>
     `);
   });
 }
+
+/* ⬇︎ NUEVO — un solo listener para todo el grid */
+document.addEventListener('DOMContentLoaded', () => {
+  // ya tenías loadNewProducts() y loadPopularCats()
+  const catGrid = document.getElementById('catGrid');
+  catGrid.addEventListener('click', e => {
+    const card = e.target.closest('.card-cat');
+    if (!card) return;                        // no se pulsó en una tarjeta
+    const id = card.dataset.id;
+    // guardamos el id y saltamos a Categories:
+    localStorage.setItem('selectedCat', id);
+    location.href = 'categories.html';
+  });
+});
+
 /* --------------------------------------------------------------------------- */

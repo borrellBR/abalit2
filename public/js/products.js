@@ -6,7 +6,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
 // Referencias al DOM
 const formBox = document.getElementById('formBox');
 const categorySelect = document.getElementById('category');
-const categoriesSection = document.getElementById('categoriesSection');
+const categoriesSection = document.getElementById('categoriesGrid');  // es el que sí existe
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const productDetailsModal = document.getElementById('productDetailsModal');

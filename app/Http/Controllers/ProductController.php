@@ -40,7 +40,7 @@ class ProductController extends Controller
     $data = $r->validate([
       'category_id' => 'required|exists:categories,id', // debe existir la tienda
       'name' => 'required|max:100', //debe tener nombre
-      'description' => 'required|max:100', //debe tener nombre
+      'description' => 'required', //debe tener nombre
       'price' => 'required|integer', //debe tener un numero de stock
       'image' => 'nullable|image|max:2048'   // 👈
 
@@ -75,7 +75,7 @@ class ProductController extends Controller
     $data = $r->validate([
       'category_id' => 'required|exists:categories,id',
       'name' => 'required|max:100',
-      'description' => 'required|max:255',
+      'description' => 'required',
       'price' => 'required|numeric',
       'image' => 'nullable|image|max:2048'
     ]);

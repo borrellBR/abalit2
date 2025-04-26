@@ -5,7 +5,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
 
 // Referencias al DOM
 const formBox = document.getElementById('formBox');
-const categoriesSection = document.getElementById('categoriesSection');
+const categoriesSection = document.getElementById('categoriesGrid');  // es el que sí existe
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const searchBox = document.getElementById('searchBox');
@@ -26,20 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleGridClick(e) {
-  const btn = e.target;
-  const article = btn.closest('article');
+  const article = e.target.closest('article');      // lo que sea que pulses
   if (!article) return;
 
   const id = article.dataset.id;
   const name = article.dataset.name;
   const description = article.dataset.description;
 
-  if (btn.matches('.btn-edit')) {
+
+  if (e.target.closest('.btn-edit')) {              // clic en “Editar”
     prepareEdit(id, name, description);
-  } else if (btn.matches('.btn-delete')) {
+  } else if (e.target.closest('.btn-delete')) {
     deleteCategory(id);
-  } else if (btn.matches('.btn-view')) {
+  } else if (e.target.closest('.btn-view')) {
     showProducts(id, name);
+  } else {
+    showProducts(id, name);                         // clic en cualquier otra zona
   }
 }
 
@@ -162,18 +164,19 @@ function renderCategories(list) {
 
     grid.insertAdjacentHTML('beforeend', `
       <article class="card"
-        data-id="${c.id}"
-        data-name="${esc(c.name)}"
-        data-description="${esc(c.description)}"
+       data-id="${c.id}"
+     data-name="${esc(c.name)}"
+     data-description="${esc(c.description)}"
+     style="cursor:pointer"
       >
-        <img src="${imgSrc}" class="thumb" alt="${esc(c.name)}">
-        <h3>${esc(c.name)}</h3>
-        <small>${esc(c.description)}</small>
+       <img src="${imgSrc}" class="thumb" alt="${esc(c.name)}">
+     <h3>${esc(c.name)}</h3>
+     <small>${esc(c.description)}</small>
 
-        <div class="actions">
+     <div class="actions">
           <button class="btn btn-edit">Editar</button>
-          <button class="btn btn-delete">Eliminar</button>
-          <button class="btn btn-add btn-view">Ver productos</button>
+       <button class="btn btn-delete">Eliminar</button>
+      <button class="btn btn-add btn-view">Ver productos</button>
         </div>
       </article>
     `);
