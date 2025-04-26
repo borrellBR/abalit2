@@ -14,22 +14,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     const p = await res.json();
 
     document.getElementById('productPage').innerHTML = `
-      <section class="product-detail">
-        <div class="pd-image">
-          <img src="${p.image ? '/storage/' + p.image : 'img/placeholder.jpg'}" alt="${p.name}">
-        </div>
-        <div class="pd-info">
+  <section class="product-frame">
+    <article class="product-detail">
+      <div class="pd-image">
+        <img src="${p.image ? '/storage/' + p.image : 'img/placeholder.jpg'}"
+             alt="${p.name}">
+      </div>
+
+      <div class="pd-info">
+        <header>
           <h1>${p.name}</h1>
-          <p class="pd-price">${Number(p.price).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
-          <p class="pd-desc">${p.description}</p>
-          <div class="pd-actions">
-            <label for="qty">Cantidad:</label>
-            <input id="qty" type="number" min="1" value="1" style="width:4rem;"/>
-            <button id="addCart" class="btn btn-add">Añadir al carrito</button>
-          </div>
+          <span class="pd-subtitle">${p.category?.name || ''}</span>
+          ${p.is_new ? '<span class="badge-new">New!</span>' : ''}
+        </header>
+
+        <div class="pd-price">
+          ${Number(p.price).toLocaleString('es-ES',
+      { style: 'currency', currency: 'EUR' })}
         </div>
-      </section>
-    `;
+
+        <p class="pd-desc">${p.description}</p>
+
+        <div>
+          <div class="qty-box">
+            <button type="button" id="minus">−</button>
+            <input id="qty" type="number" min="1" value="1">
+            <button type="button" id="plus">+</button>
+          </div>
+
+          <button class="btn-cart" id="addCart">
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
+    </article>
+  </section>
+`;
+
 
     document.getElementById('addCart').addEventListener('click', () => {
       const qty = parseInt(document.getElementById('qty').value, 10) || 1;

@@ -734,6 +734,16 @@ body {
 }
 
 
+/* --- SÓLO para product.html ------------------------------------ */
+#productPage {
+  /* es el <main id="productPage">… */
+  max-width: none;
+  /* ocupa todo el ancho */
+  margin: 0;
+  /* sin centrar */
+  padding: 0;
+  /* sin hueco lateral */
+}
 
 
 /* =====  Responsivo  ===== */
