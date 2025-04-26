@@ -1,84 +1,73 @@
-// account.js
-document.addEventListener('navbar-ready', init);   // cuando la navbar avise
-if (document.querySelector('header.topbar')) init(); // …o si ya estaba
-
-function init() {
-  loadProfile();
-
-  document.getElementById('accountForm')
-    .addEventListener('submit', handleSave);
-
-  document.getElementById('btnLogout')
-    .addEventListener('click', () => {
-      localStorage.removeItem('token');
-      location.href = 'home.html';
-    });
-
-  // si la navbar expone estas utilidades…
-  if (window.initSearch) initSearch();
-  if (window.updateAuthUI) updateAuthUI();
-}
-
-async function loadProfile() {
+// public/js/account.js
+document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
-  if (!token) return redirectLogin();
+  if (!token) return location.href = 'login.html';   // no logueado
 
-  try {
-    const res = await fetch('/api/user', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (res.status === 401) return redirectLogin();
-
-    const u = await res.json();
-    ['name', 'email', 'phone'].forEach(key =>
-      (document.getElementById(key).value = u[key] ?? '')
-    );
-  } catch (err) {
-    console.error(err);
-    showMessage('Error al cargar perfil', 'error');
-  }
-}
-
-async function handleSave(e) {
-  e.preventDefault();
-  const token = localStorage.getItem('token');
-  if (!token) return redirectLogin();
-
-  const payload = {
-    name: document.getElementById('name').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    phone: document.getElementById('phone').value.trim() || null
-  };
-
-  try {
-    const res = await fetch('/api/user', {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+  /* ---- 1. Cargar datos del usuario ----------------------------------- */
+  fetch('/api/user', {
+    headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+  })
+    .then(r => {
+      if (r.status === 401) throw new Error('unauth');
+      if (!r.ok) throw new Error('http');
+      return r.json();
+    })
+    .then(u => {
+      /* Rellena el formulario con los datos actuales */
+      document.getElementById('name').value = u.name ?? '';
+      document.getElementById('email').value = u.email ?? '';
+      document.getElementById('phone').value = u.phone ?? '';
+    })
+    .catch(err => {
+      if (err.message === 'unauth') {
+        localStorage.removeItem('token');
+        location.href = 'login.html';
+      } else {
+        showMsg('No se pudieron cargar tus datos.', true);
+      }
     });
 
-    if (res.status === 401) return redirectLogin();
-    if (!res.ok) return showMessage('No se pudo guardar', 'error');
+  /* ---- 2. Guardar cambios -------------------------------------------- */
+  document.getElementById('accountForm').addEventListener('submit', async e => {
+    e.preventDefault();
 
-    showMessage('Datos actualizados', 'success');
-  } catch (err) {
-    console.error(err);
-    showMessage('Error de red', 'error');
-  }
-}
+    const body = JSON.stringify({
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim()
+    });
 
-function redirectLogin() {
-  localStorage.removeItem('token');
-  location.href = 'login.html';
-}
+    try {
+      const res = await fetch('/api/user', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body
+      });
 
-function showMessage(text, variant) {
+      if (res.status === 401) throw new Error('unauth');
+      if (!res.ok) throw new Error('http');
+
+      showMsg('Datos actualizados correctamente.', false);
+    } catch (err) {
+      if (err.message === 'unauth') {
+        localStorage.removeItem('token');
+        location.href = 'login.html';
+      } else {
+        showMsg('No se pudieron guardar los cambios.', true);
+      }
+    }
+  });
+});
+
+/* Utilidad para mostrar alertas */
+function showMsg(text, isError = false) {
   const box = document.getElementById('msg');
-  box.className = `alert alert-${variant}`;
   box.textContent = text;
+  box.className = 'alert ' + (isError ? 'alert-error' : 'alert-success');
   box.style.display = 'block';
-  setTimeout(() => (box.style.display = 'none'), 3500);
+  setTimeout(() => box.style.display = 'none', 4000);
 }
