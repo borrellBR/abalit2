@@ -694,6 +694,41 @@ body {
   color: #555
 }
 
+/* Carrito */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-info {
+  flex: 1;
+}
+
+.cart-summary {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+/* Pedidos */
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: .5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.order-card li {
+  margin-bottom: .25rem;
+}
+
 
 
 

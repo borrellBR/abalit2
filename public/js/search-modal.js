@@ -56,6 +56,7 @@
 
     function render(list = []) {
       grid.innerHTML = list.map(p => `
+          <a href="product.html?id=${p.id}">
         <article class="sugg-card">
           <img src="${p.image ? '/storage/' + p.image : NO_IMG}" alt="${p.name}">
           <h5>${p.name}</h5>

@@ -45,6 +45,7 @@ function renderNewIn(list) {
 
   list.forEach(p => {
     grid.insertAdjacentHTML('beforeend', `
+        <a href="product.html?id=${p.id}" class="card-new-link">
       <article class="card-new">
         <img src="${p.image ? `/storage/${p.image}` : NO_IMG}" alt="${p.name}">
         <div class="info">
