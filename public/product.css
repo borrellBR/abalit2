@@ -1,0 +1,238 @@
+/* ========== AJUSTE FINAL DETALLE DE PRODUCTO – LOOK KORI ========== */
+
+/* ---------- Contenedor principal ---------- */
+.product-detail-page {
+  /* tarjeta con borde y radio redondeado */
+  /* background: #f9f8f4; */
+  /* border: 4px solid #c8c5c1;
+  border-radius: 22px; */
+
+  /* grid de 2 columnas → 55 % img / 45 % info */
+  display: grid;
+  grid-template-columns: minmax(300px, 55%) 1fr;
+  align-items: start;
+  gap: 3rem;
+
+  max-width: 1400px;
+  margin: 2.5rem auto;
+  /* centrada */
+  padding: 3rem 3.5rem;
+}
+
+/* ---------- Columna izquierda: imagen ---------- */
+.pd-image {
+  width: 100%;
+  /* rellena su celda */
+}
+
+.pd-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+/* ---------- Columna derecha: info ---------- */
+.pd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  position: relative;
+}
+
+/* Título grande con Sora black */
+.pd-info h1 {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  margin: 0;
+  letter-spacing: .5px;
+}
+
+/* Sub-título descriptivo (línea bajo H1) */
+.pd-info .pd-subtitle {
+  font-size: .9rem;
+  color: #7a766e;
+}
+
+/* Precio + línea divisoria bajo él */
+.pd-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1.2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid #c8c5c1;
+}
+
+/* Párrafos de descripción */
+.pd-desc {
+  font-size: .95rem;
+  line-height: 1.65;
+  color: #5d5a52;
+}
+
+
+
+/* ----- fila ENVÍO ----- */
+.pd-shipping {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .85rem;
+  color: #9a968f;
+  margin-top: .5rem;
+}
+
+/* ----- Acciones (cantidad + botón) ----- */
+.pd-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* selector redondo – / + */
+.qty-box {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #c8c5c1;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 42px;
+}
+
+.qty-box button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.qty-box input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  font-size: 1rem;
+  appearance: none;
+}
+
+/* botón principal ancho y redondeado */
+.btn-add {
+  flex: 1;
+  background: #a3145d;
+  color: #fff;
+  padding: .9rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.btn-add:hover {
+  background: #83104a;
+}
+
+/* ====== ANULA EL “wrapper” CUANDO ES UNA PÁGINA DE PRODUCTO ====== */
+.wrapper.product-detail-page {
+  /* Fuera el ancho máximo y el acolchado que la encogen */
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 3rem auto;
+  /* margen exterior como en el mock-up */
+}
+
+/* El cuerpo de la página producto NO debe heredar la foto-fondo genérica */
+.product-body {
+  background: #f3f2eb;
+  /* beige liso */
+  background-image: none;
+}
+
+/* Elimina el borde interno fantasma (sólo necesitamos uno) */
+.product-detail-page>.pd-image,
+.product-detail-page>.pd-info {
+  border: none !important;
+}
+
+/* Centra el contenido dentro de .pd-info para que alinee con la imagen */
+.pd-info {
+  justify-content: flex-start;
+}
+
+/* Por si acaso: evita que la imagen se tope con su columna */
+.pd-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px) {
+  .product-detail-page {
+    grid-template-columns: 1fr;
+    /* apila */
+    padding: 2rem;
+  }
+
+  .pd-badge {
+    right: 0;
+  }
+}
+
+.pd-image {
+  height: 100%;
+  display: flex;
+}
+
+.pd-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* rellena – cambialo a contain si prefieres ver todo */
+  border-radius: 20px;
+}
+
+/* Si wrapper y product-detail-page coinciden, anulamos su grid */
+.wrapper.product-detail-page {
+  display: block;
+  /* deja de ser grid */
+  grid-template-columns: none;
+  padding: 0;
+  /* seguimos sin padding interno */
+  margin: 3rem auto;
+}
+
+
+/* =====  OCUPAR 100 % DEL ALTO VISIBLE  ===== */
+
+/* 1) La tarjeta crece hasta llenar el viewport */
+.product-detail-page {
+  min-height: calc(100vh - 10rem);
+  /* 6 rem ≈ 3 rem de margen sup + inf */
+  align-items: stretch;
+  /* las celdas se estiran en vertical */
+}
+
+/* 2) Columna de la foto: alto completo */
+.pd-image {
+  height: 100%;
+  /* toda la altura de la celda */
+}
+
+/* La propia imagen se adapta sin deformarse */
+.pd-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* rellena manteniendo proporción */
+}

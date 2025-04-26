@@ -729,6 +729,10 @@ body {
   margin-bottom: .25rem;
 }
 
+.no-hero::before {
+  display: none !important;
+}
+
 
 
 

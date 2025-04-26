@@ -99,26 +99,45 @@ async function saveCategory() {
   const fd = new FormData();
   fd.append('name', document.getElementById('name').value.trim());
   fd.append('description', document.getElementById('description').value.trim());
-  if (document.getElementById('image').files[0])
+  if (document.getElementById('image').files[0]) {
     fd.append('image', document.getElementById('image').files[0]);
-  if (id) fd.append('_method', 'PUT');          // spoof para editar
+  }
+  if (id) {
+    fd.append('_method', 'PUT');
+  }
 
-  await fetch(id ? `/api/categories/${id}` : '/api/categories', {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    // si no hay token, fuerza login
+    return location.href = 'login.html';
+  }
+
+  const res = await fetch(id ? `/api/categories/${id}` : '/api/categories', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
-      'Accept': 'application/json',       // clava esto
-      'X-Requested-With': 'XMLHttpRequest'       // opcional, pero ayuda
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
     body: fd
   });
 
+  if (res.status === 401) {
+    // token caducado o inválido
+    localStorage.removeItem('token');
+    return location.href = 'login.html';
+  }
 
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    console.error('Error guardando categoría:', err);
+    return alert('No se pudo guardar la categoría.');
+  }
 
-
+  // todo OK
   hideForm();
   getCategories();
 }
+
 
 
 async function deleteCategory(id) {
