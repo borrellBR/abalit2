@@ -154,9 +154,41 @@ body {
   opacity: .86;
 }
 
-/* =========================
-     Responsivo (<1024px)
-     ========================= */
+/* ==============================
+   Navbar negro en product.html
+   ============================== */
+body.product-page .topbar {
+  background: var(--bg-cream);
+  /* mantiene tu fondo crema */
+}
+
+/* enlaces y botones de nav en negro */
+body.product-page .topbar .nav-link,
+body.product-page .topbar button,
+body.product-page .topbar input,
+body.product-page .topbar svg {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+/* hover inverso (blanco) */
+body.product-page .topbar .nav-link:hover,
+body.product-page .topbar button:hover {
+  color: #595959 !important;
+  fill: #595959 !important;
+}
+
+/* si tu buscador es un input de .search, también: */
+body.product-page .topbar .search {
+  border-color: #000;
+  color: #000;
+}
+
+body.product-page .topbar .search:focus {
+  border-color: #fff;
+  color: #fff;
+}
+
 @media (max-width: 1024px) {
   #productPage {
     padding-top: 2rem !important;
