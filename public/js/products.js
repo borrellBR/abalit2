@@ -171,8 +171,7 @@ function renderProducts(list) {
 
     grid.insertAdjacentHTML('beforeend', `
       <article class="card"
-        onclick="showProductDetails('${esc(p.name)}', '${esc(p.description)}',
-                                   '${esc(p.price)}', '${p.category?.name || 'Sin categoría'}')">
+      onclick="location.href='product.html?id=${p.id}'">
 
         <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
         <h3>${esc(p.name)}</h3>
@@ -180,18 +179,7 @@ function renderProducts(list) {
         <small>Descripción: ${esc(p.description)}</small>
         <small>Precio: ${esc(p.price)} €</small>
 
-        <div class="actions">
-          <button class="btn btn-edit"
-            onclick="event.stopPropagation();
-                     handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
-                     '${name}', '${description}', '${price}')">
-            Editar
-          </button>
-          <button class="btn btn-delete"
-            onclick="event.stopPropagation(); deleteProduct(${p.id})">
-            Eliminar
-          </button>
-        </div>
+
       </article>
     `);
   });
