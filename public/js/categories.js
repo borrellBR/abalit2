@@ -173,11 +173,7 @@ function renderCategories(list) {
      <h3>${esc(c.name)}</h3>
      <small>${esc(c.description)}</small>
 
-     <div class="actions">
-          <button class="btn btn-edit">Editar</button>
-       <button class="btn btn-delete">Eliminar</button>
-      <button class="btn btn-add btn-view">Ver productos</button>
-        </div>
+
       </article>
     `);
   });

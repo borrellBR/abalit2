@@ -745,6 +745,28 @@ body {
   /* sin hueco lateral */
 }
 
+/* === sólo para Home: quita el bg del body y pon crema === */
+body.home-page {
+  background-image: none !important;
+  background: #f5f4e9 !important;
+}
+
+/* Hero full-bleed en Home */
+body.home-page .hero {
+  height: 100vh;
+  background: url('https://www.howdens.com/bedrooms/-/media/howdens/assets/clh_asset_products/clh_asset_levela_108418/clh_asset_levelb_25552878/clh_asset_levelc_25596378/ass_25592278.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Después del hero, que vuelva al crema */
+body.home-page .hero+* {
+  background-color: #f5f4e9;
+}
+
+
 
 /* =====  Responsivo  ===== */
 @media(max-width:575px) {
