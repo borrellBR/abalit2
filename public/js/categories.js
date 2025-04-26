@@ -1,4 +1,3 @@
-
 // Escapa caracteres peligrosos para evitar inyecciones HTML
 const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
@@ -9,6 +8,7 @@ const formBox = document.getElementById('formBox');
 const categoriesSection = document.getElementById('categoriesSection');
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
+const searchBox = document.getElementById('searchBox');
 
 // Al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,11 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnSave').addEventListener('click', saveCategory);
   document.getElementById('categoriesGrid').addEventListener('click', handleGridClick);
 
-  let t;
-  document.getElementById('searchBox').addEventListener('input', e => {
-    clearTimeout(t);
-    t = setTimeout(() => getCategories(e.target.value.trim()), 300);
-  });
+  if (searchBox) {
+    let t;
+    searchBox.addEventListener('input', e => {
+      clearTimeout(t);
+      t = setTimeout(() => getCategories(e.target.value.trim()), 300);
+    });
+  }
 });
 
 function handleGridClick(e) {

@@ -11,30 +11,11 @@
 
 <body>
 
-  <!-- Topbar -->
-  <header class="topbar">
-    <a href="home.html">
-      <img id="logo" src="img/logo.png" alt="Nonna Logo">
-    </a>
-    <nav>
-      <a class="nav-link" href="categories.html">Categorías</a>
-      <a class="nav-link" href="products.html">Productos</a>
-      <a class="nav-link" href="orders.html">Pedidos</a>
-      <a class="nav-link" href="account.html">Cuenta</a>
-    </nav>
+  <script src="js/load-navbar.js" defer></script>
+  <script src="js/search-modal.js" defer></script>
+  <script src="js/home.js" defer></script>
 
-    <!-- Nueva sección derecha -->
-    <div class="actions">
-      <input type="search" placeholder="Buscar…">
-      <div class="cart" onclick="location.href='cart.html'">
-        <!-- Un SVG simple de carrito -->
-        <svg viewBox="0 0 24 24">
-          <path d="M7 4h-2l-3 9v2h2a3 3 0 1 0 6 0h6a3 3 0 1 0 6 0h2v-2l-3-9h-2" />
-        </svg>
-        <span class="badge">0</span>
-      </div>
-    </div>
-  </header>
+
 
   <!-- Hero, secciones... -->
   <section class="hero">
@@ -59,6 +40,8 @@
   <div id="catGrid" class="grid-cat"></div>
 
   <script type="module" src="home.js"></script>
+  <script type="module" src="search-modal.js"></script>
+
 
 </body>
 

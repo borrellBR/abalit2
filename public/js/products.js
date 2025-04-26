@@ -11,6 +11,7 @@ const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const productDetailsModal = document.getElementById('productDetailsModal');
 const productDetailsContent = document.getElementById('productDetailsContent');
+const searchBox = document.getElementById('searchBox');
 
 // Al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,11 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
     saveProduct();
   });
 
-  let t;
-  document.getElementById('searchBox').addEventListener('input', e => {
-    clearTimeout(t);
-    t = setTimeout(() => getProducts(e.target.value.trim()), 300);
-  });
+  if (searchBox) {
+    let t;
+    searchBox.addEventListener('input', e => {
+      clearTimeout(t);
+      t = setTimeout(() => getProducts(e.target.value.trim()), 300);
+    });
+  }
 });
 
 async function loadCategoriesIntoSelect() {
@@ -206,8 +209,8 @@ function showProductDetails(name, description, price, category) {
   productDetailsModal.style.display = 'flex';
 }
 
-let t;
-document.getElementById('searchBox').addEventListener('input', e => {
-  clearTimeout(t);
-  t = setTimeout(() => getProducts(e.target.value.trim()), 300);
+const localSearch = document.getElementById('localSearch');
+localSearch?.addEventListener('input', e => {
+  clearTimeout(window.t);
+  window.t = setTimeout(() => getProducts(e.target.value.trim()), 300);
 });

@@ -1,21 +1,47 @@
+<!-- navbar.html ---------------------------------------------------->
 <header class="topbar">
-  <a href="home.html">
-    <img id="logo" src="img/logo.png" alt="Nonna Logo">
-  </a>
+  <a href="home.html"><img id="logo" src="img/logo.png" alt="Nonna logo"></a>
+
   <nav>
     <a class="nav-link" href="categories.html">Categorías</a>
     <a class="nav-link" href="products.html">Productos</a>
     <a class="nav-link" href="orders.html">Pedidos</a>
     <a class="nav-link" href="account.html">Cuenta</a>
   </nav>
+
   <div class="actions">
-    <input type="search" id="searchBox" placeholder="Buscar…">
-    <div class="cart" onclick="location.href='cart.html'">
+    <!-- ⬇︎ único input global -->
+    <input id="globalSearch" type="search" placeholder="Buscar producto…">
+    <div class="cart" onclick="location='cart.html'">
       <svg viewBox="0 0 24 24">
         <path d="M7 4h-2l-3 9v2h2a3 3 0 1 0 6 0h6a3 3 0 1 0 6 0h2v-2l-3-9h-2" />
       </svg>
-      <span class="badge">0</span>
+      <span id="cartCount" class="badge">0</span>
     </div>
     <span id="authSection"></span>
   </div>
 </header>
+
+<!-- ◉ Modal de búsqueda ------------------------------------------->
+<div id="searchModal" class="search-modal">
+  <div class="search-box">
+    <input id="searchInput" type="search" placeholder="Buscar producto…">
+    <button id="closeSearch">✕</button>
+
+    <h4>Busca por estancias</h4>
+    <div class="tag-cloud">
+      <span class="tag">Comedor</span><span class="tag">Dormitorio</span>
+      <span class="tag">Cocina</span><span class="tag">Baño</span>
+      <span class="tag">Salón</span><span class="tag">Oficina</span>
+      <span class="tag">Jardín</span>
+    </div>
+
+    <h4>Busca por categorías</h4>
+    <div id="catTags" class="tag-cloud"></div>
+
+    <h4>Productos sugeridos</h4>
+    <!-- aquí irán también los resultados dinámicos -->
+    <div id="suggestGrid" class="suggest-grid"></div>
+  </div>
+</div>
+<!-- -------------------------------------------------------------- -->

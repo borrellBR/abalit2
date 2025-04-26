@@ -5,41 +5,32 @@
   <meta charset="UTF-8">
   <title>Gestor de Productos</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="products.js" defer></script>
-
 </head>
 
 <body>
+  <script src="js/load-navbar.js" defer></script>
+  <script src="js/search-modal.js" defer></script>
+  <script src="js/products.js" defer></script>
 
-  <script src="load-navbar.js" defer></script>
 
   <main class="wrapper" style="padding-top:4rem;">
     <h1>Productos</h1>
-    <br>
     <button class="btn btn-add mb-4" onclick="openCreateForm()">＋ Añadir producto</button>
-    <br> <br> <br>
 
-    <!-- Formulario -->
-    <section id="formBox" class="card form-card" style="display:none; margin-bottom:1.5rem;">
+    <section id="formBox" class="card form-card">
       <button class="btn-close" onclick="hideForm()">✕</button>
       <h2 id="formTitle">Crear producto</h2>
-      <input type="hidden" id="product-id">
-      <select id="category" class="input" required></select>
-      <input id="name" class="input" type="text" placeholder="Nombre *" required>
-      <input id="description" class="input" type="text" placeholder="Descripción *" required>
-      <input id="price" class="input" type="number" placeholder="Precio *" required>
-      <input id="image" type="file" accept="image/*" class="input">
+      <input hidden id="product-id">
+      <select id="category" class="input"></select>
+      <input id="name" class="input" placeholder="Nombre *">
+      <input id="description" class="input" placeholder="Descripción *">
+      <input id="price" class="input" placeholder="Precio *">
+      <input id="image" type="file" class="input">
       <button id="btnSave" class="btn btn-save">Guardar</button>
     </section>
 
-    <!-- Grid de productos -->
-    <section id="productsGrid" class="grid"></section>
+    <div id="productsGrid" class="grid"></div>
   </main>
-
-  <!-- Modales -->
-  <div id="productDetailsModal" class="modal">…</div>
-  <div id="loginModal" class="modal">…</div>
-
 </body>
 
 </html>

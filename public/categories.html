@@ -5,49 +5,35 @@
   <meta charset="UTF-8">
   <title>Gestor de Categorías</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="categories.js" defer></script>
-
 </head>
 
 <body>
-
-  <script src="load-navbar.js" defer></script>
+  <script src="js/load-navbar.js" defer></script>
+  <script src="js/search-modal.js" defer></script>
+  <script src="js/categories.js" defer></script>
 
 
   <main class="wrapper" style="padding-top:4rem;">
     <h1>Categorías</h1>
+    <button class="btn btn-add mb-4" onclick="openCreateForm()">＋ Añadir Categoría</button>
 
-    <br>
-    <button class="btn btn-add mb-4" onclick="openCreateForm()">＋ Añadir Categorias</button>
-    <br> <br> <br>
-
-    <!-- Formulario -->
-    <section id="formBox" class="card form-card" style="display:none; margin-bottom:1.5rem;">
+    <section id="formBox" class="card form-card">
       <button class="btn-close" onclick="hideForm()">✕</button>
       <h2 id="formTitle">Crear Categoría</h2>
       <input type="hidden" id="category-id">
-      <input id="name" class="input" type="text" placeholder="Nombre *" required>
-      <input id="description" class="input" type="text" placeholder="Descripción *" required>
-      <input id="image" type="file" accept="image/*" class="input">
+      <input id="name" class="input" placeholder="Nombre *">
+      <input id="description" class="input" placeholder="Descripción *">
+      <input id="image" type="file" class="input">
       <button id="btnSave" class="btn btn-save">Guardar</button>
     </section>
 
-    <!-- Grid de categorías -->
-    <section id="categoriesSection">
-      <section id="categoriesGrid" class="grid"></section>
-    </section>
-
-    <!-- Productos de categoría -->
-    <section id="productsSection" style="display:none; margin-top:2rem;">
-      <button class="btn btn-add mb-3" onclick="hideProducts()">← Volver a Categorías</button>
+    <section id="categoriesGrid" class="grid"></section>
+    <section id="productsSection" style="display:none;">
+      <button class="btn btn-add" onclick="hideProducts()">← Volver</button>
       <h2 id="productsTitle"></h2>
-      <section id="productsGrid" class="grid"></section>
+      <div id="productsGrid" class="grid"></div>
     </section>
   </main>
-
-  <!-- Modal login -->
-  <div id="loginModal" class="modal">…</div>
-
 </body>
 
 </html>
