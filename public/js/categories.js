@@ -172,8 +172,6 @@ function renderCategories(list) {
        <img src="${imgSrc}" class="thumb" alt="${esc(c.name)}">
      <h3>${esc(c.name)}</h3>
      <small>${esc(c.description)}</small>
-
-
       </article>
     `);
   });

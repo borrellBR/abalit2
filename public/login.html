@@ -55,7 +55,7 @@
     import { login, isLoggedIn } from './js/auth.js';
 
     if (isLoggedIn()) {
-      window.location.href = "/categories.html";
+      window.location.href = "/home.html";
     }
 
     document.getElementById('btnLogin').addEventListener('click', async () => {
@@ -64,7 +64,7 @@
 
       try {
         await login(email, password);
-        window.location.href = "/categories.html";
+        window.location.href = "/home.html";
       } catch (err) {
         alert("Credenciales incorrectas");
         console.error(err);
