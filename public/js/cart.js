@@ -1,17 +1,19 @@
-// public/js/cart.js
 document.addEventListener('DOMContentLoaded', () => {
   renderCart();
 
-  // delegación de eventos en la sección
-  document.getElementById('cartSection').addEventListener('click', e => {
-    if (e.target.matches('.remove-item')) {
-      const id = e.target.dataset.id;
-      removeFromCart(id);
-    }
-    if (e.target.matches('#checkoutBtn')) {
-      placeOrder();
-    }
-  });
+  document.getElementById('cartItems')
+    .addEventListener('click', e => {
+      if (e.target.matches('.btn-remove')) {
+        removeFromCart(e.target.dataset.id);
+      }
+    });
+
+  document.getElementById('cartSummary')
+    .addEventListener('click', e => {
+      if (e.target.matches('.btn-place-order')) {
+        placeOrder();
+      }
+    });
 });
 
 function getCart() {
@@ -22,54 +24,72 @@ function setCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// renderiza toda la tabla de carrito
 function renderCart() {
   const cart = getCart();
-  const section = document.getElementById('cartSection');
+  const itemsCt = document.getElementById('cartItems');
+  const sumCt = document.getElementById('cartSummary');
 
-  if (cart.length === 0) {
-    section.innerHTML = `<p>Tu carrito está vacío. <a href="home.html">Seguir comprando.</a></p>`;
+  if (!cart.length) {
+    itemsCt.innerHTML = `
+      <p class="empty-msg">
+        Tu carrito está vacío. <a href="home.html">Seguir comprando.</a>
+      </p>`;
+    sumCt.innerHTML = '';
     return;
   }
 
-  // tabla de ítems
   let total = 0;
-  const rows = cart.map(item => {
+  itemsCt.innerHTML = cart.map(item => {
     const subtotal = item.price * item.qty;
     total += subtotal;
+    const imgSrc = item.image
+      ? `/storage/${item.image}`
+      : 'img/placeholder.jpg';
+
     return `
       <div class="cart-item">
-<img
-  src="${item.image
-        ? `/storage/${item.image}`
-        : 'img/placeholder.jpg'
-      }"
-  alt="${item.name}"
-  class="thumb"
-  style="width:80px;height:80px;object-fit:cover;"
->
-
-       <div class="cart-info">
+        <img src="${imgSrc}" alt="${item.name}" class="thumb">
+        <div class="info">
           <h4>${item.name}</h4>
-          <p>Precio: ${item.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+          <p class="price">${item.price.toLocaleString('es-ES', {
+      style: 'currency', currency: 'EUR'
+    })}</p>
           <p>Cantidad: ${item.qty}</p>
-          <p>Subtotal: ${subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+          <p>Subtotal: ${subtotal.toLocaleString('es-ES', {
+      style: 'currency', currency: 'EUR'
+    })}</p>
         </div>
-        <button class="btn btn-delete remove-item" data-id="${item.id}">Eliminar</button>
-      </div>
-    `;
+        <button class="btn btn-remove" data-id="${item.id}">
+          Eliminar
+        </button>
+      </div>`;
   }).join('');
 
-  section.innerHTML = `
-    ${rows}
-    <div class="cart-summary">
-      <h3>Total: ${total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</h3>
-      <button id="checkoutBtn" class="btn btn-add">Realizar Pedido</button>
+  sumCt.innerHTML = `
+    <h2>Resumen del pedido</h2>
+    <div class="line"></div>
+    <div class="total-row">
+      <span>Total productos</span>
+      <span>${total.toLocaleString('es-ES', {
+    style: 'currency', currency: 'EUR'
+  })}</span>
     </div>
-  `;
+    <div class="total-row">
+      <span>Total envío</span>
+      <span>29,99 €</span>
+    </div>
+    <div class="line"></div>
+    <div class="total-row grand-total">
+      <strong>Importe total</strong>
+      <strong>${(total + 29.99).toLocaleString('es-ES', {
+    style: 'currency', currency: 'EUR'
+  })}</strong>
+    </div>
+    <button class="btn btn-place-order">
+      Proceso de compra
+    </button>`;
 }
 
-// elimina un artículo y vuelve a renderizar
 function removeFromCart(id) {
   let cart = getCart();
   cart = cart.filter(item => item.id != id);
@@ -77,13 +97,11 @@ function removeFromCart(id) {
   renderCart();
 }
 
-// simula un pedido: lo guarda en localStorage.orders y vacía carrito
 function placeOrder() {
   const cart = getCart();
   if (!cart.length) return;
-  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
 
-  // creamos un pedido con fecha y detalle
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
   const newOrder = {
     id: Date.now(),
     date: new Date().toLocaleString(),
@@ -92,8 +110,7 @@ function placeOrder() {
   orders.push(newOrder);
   localStorage.setItem('orders', JSON.stringify(orders));
 
-  // vaciamos carrito
   localStorage.removeItem('cart');
-  alert('Pedido realizado con éxito. Podrás verlo en la pestaña Pedidos.');
+  alert('Pedido realizado con éxito. Puedes verlo en Pedidos.');
   renderCart();
 }

@@ -192,8 +192,8 @@ body {
 }
 
 .thumb {
-  width: 100%;
-  max-height: 120px;
+  width: 50%;
+  height: 80%;
   object-fit: cover;
   border-radius: .5rem;
   margin-bottom: .5rem;
@@ -713,6 +713,7 @@ body {
   align-items: center;
   gap: 1rem;
   padding: .75rem 0;
+  height: 25rem;
   border-bottom: 1px solid #ddd;
 }
 
@@ -1033,6 +1034,77 @@ body:not(.home-page) .topbar input {
 
 
 
+
+/* ================= Carrito: ajustes finos ================ */
+.cart-page {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  /* alineamos al principio, no estirar */
+  margin-top: 2rem;
+}
+
+/* Cada item sigue igual… */
+.cart-items .cart-item {
+  /* … */
+}
+
+/* Resumen */
+.cart-summary {
+
+  padding: 1.5rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* IMPORTANTE: quitar cualquier height o flex-grow */
+  height: auto;
+  /* auto‐height según contenido */
+  max-height: none;
+  /* elimina límites previos */
+}
+
+/* Título del resumen */
+.cart-summary h3 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  text-align: left;
+  /* igual que imagen */
+  border-bottom: 1px solid #ddd;
+  padding-bottom: .5rem;
+}
+
+/* Total lineal */
+.cart-summary .total-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  font-weight: 600;
+}
+
+/* Botón */
+.cart-summary .btn-place-order {
+  margin-top: auto;
+  /* empuja el botón abajo si sobra espacio */
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: .75rem;
+  border-radius: .5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: none;
+  /* match botón imagen 1 */
+}
+
+/* Línea divisoria entre items y resumen */
+.cart-items {
+  border-right: 1px solid #ddd;
+  padding-right: 2rem;
+  width: 100%;
+}
 
 
 /* =====  Responsivo  ===== */

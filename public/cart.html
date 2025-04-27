@@ -7,18 +7,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-  <!-- navbar + search-modal -->
+<body class="home-page">
+  <!-- Navbar y buscador -->
   <script src="js/load-navbar.js" defer></script>
   <script src="js/search-modal.js" defer></script>
+  <br><br><br>
+  <main class="wrapper">
+    <h1 class="page-title">Tu Carrito</h1>
 
-  <main class="wrapper" style="padding-top:4rem; max-width:800px; margin:auto;">
-    <br> <br> <br>
-    <h1>Tu Carrito</h1>
-    <br> <br>
-    <section id="cartSection" class="card">
-      <!-- Se rellenará con JS -->
-    </section>
+    <div class="cart-page">
+      <!-- Lista de ítems -->
+      <div class="cart-items" id="cartItems">
+        <!-- JS inyecta aquí .cart-item -->
+      </div>
+
+      <!-- Resumen del pedido -->
+      <aside class="cart-summary" id="cartSummary">
+        <!-- JS inyecta total + botón -->
+      </aside>
+    </div>
   </main>
 
   <script src="js/cart.js" defer></script>
