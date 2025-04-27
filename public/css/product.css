@@ -1,21 +1,11 @@
-/* =========================
-   Variables globales
-   ========================= */
-/* =========================
-   Variables globales
-   ========================= */
 :root {
   --bg-cream: #f5f4e9;
   --accent: #2563eb;
   --radius: .8rem;
   --gap: 1rem;
   --header-h: 4rem;
-  /* altura de tu navbar */
 }
 
-/* =========================
-     Reset mínimo
-     ========================= */
 *,
 *::before,
 *::after {
@@ -24,29 +14,20 @@
   padding: 0;
 }
 
-/* =========================
-     Fondo full-width
-     ========================= */
 body {
   background: var(--bg-cream) !important;
   background-image: none !important;
 }
 
-/* =========================
-     Main full-width y bajo navbar
-     ========================= */
+
 #productPage {
   max-width: 100vw !important;
   margin: 0 !important;
   padding-top: var(--header-h) !important;
-  /* deja sitio para navbar */
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* =========================
-     Layout de dos columnas
-     ========================= */
 .product-detail {
   display: flex;
   width: 100%;
@@ -54,31 +35,25 @@ body {
   margin: 0;
   overflow: hidden;
   padding: var(--gap);
-  /* deja gap alrededor */
   box-sizing: border-box;
 }
 
-/* — Imagen (50% izquierdo) — */
 :root {
   --bg-cream: #f5f4e9;
   --accent: #2563eb;
   --radius: .8rem;
   --gap: 1rem;
   --header-h: 4rem;
-  /* altura de tu navbar */
 }
 
 .pd-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* aplica radio en las 4 esquinas */
   border-radius: var(--radius);
 }
 
 
-
-/* — Texto (50% derecho) — */
 .pd-info {
   flex: 1;
   display: flex;
@@ -90,7 +65,6 @@ body {
   overflow-y: auto;
 }
 
-/* Tipografía */
 .pd-info h1 {
   font-size: clamp(2.2rem, 3vw, 3.5rem);
   line-height: 1.1;
@@ -114,14 +88,11 @@ body {
   color: #444;
 }
 
-/* Contador + CTA siempre abajo, pero elevado con margin-bottom */
 .pd-actions {
-  /* margin-top: auto; */
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
-  /* los sube un poco */
 }
 
 .qty-box {
@@ -163,15 +134,11 @@ body {
   opacity: .86;
 }
 
-/* ==============================
-   Navbar negro en product.html
-   ============================== */
+
 body.product-page .topbar {
   background: var(--bg-cream);
-  /* mantiene tu fondo crema */
 }
 
-/* enlaces y botones de nav en negro */
 body.product-page .topbar .nav-link,
 body.product-page .topbar button,
 body.product-page .topbar input,
@@ -180,14 +147,12 @@ body.product-page .topbar svg {
   fill: #000000 !important;
 }
 
-/* hover inverso (blanco) */
 body.product-page .topbar .nav-link:hover,
 body.product-page .topbar button:hover {
   color: #000000 !important;
   fill: #595959 !important;
 }
 
-/* si tu buscador es un input de .search, también: */
 body.product-page .topbar .search {
   border-color: #000;
   color: #000;
@@ -219,10 +184,6 @@ body.product-page .topbar .search:focus {
   }
 }
 
-
-/* =========================
-     Reset mínimo
-     ========================= */
 *,
 *::before,
 *::after {
@@ -231,29 +192,19 @@ body.product-page .topbar .search:focus {
   padding: 0;
 }
 
-/* =========================
-     Fondo full-width
-     ========================= */
 body {
   background: var(--bg-cream) !important;
   background-image: none !important;
 }
 
-/* =========================
-     Main full-width y bajo navbar
-     ========================= */
 #productPage {
   max-width: 100vw !important;
   margin: 0 !important;
   padding-top: var(--header-h) !important;
-  /* deja sitio para navbar */
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* =========================
-     Layout de dos columnas
-     ========================= */
 .product-detail {
   display: flex;
   width: 100%;
@@ -262,7 +213,6 @@ body {
   overflow: hidden;
 }
 
-/* — Imagen (50% izquierdo) — */
 .pd-image {
   flex: 0 0 60%;
   overflow: hidden;
@@ -274,12 +224,8 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 2rem;
-  /* 2×gap arriba/abajo, 1×gap a izquierda y derecha */
 }
 
-
-
-/* — Texto (50% derecho) — */
 .pd-info {
   flex: 1;
   display: flex;
@@ -291,7 +237,6 @@ body {
   overflow-y: auto;
 }
 
-/* Tipografía */
 .pd-info h1 {
   font-size: clamp(2.2rem, 3vw, 3.5rem);
   line-height: 1.1;
@@ -315,14 +260,11 @@ body {
   color: #444;
 }
 
-/* Contador + CTA siempre abajo, pero elevado con margin-bottom */
 .pd-actions {
-  /* margin-top: auto; */
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
-  /* los sube un poco */
 }
 
 .qty-box {
@@ -364,15 +306,10 @@ body {
   opacity: .86;
 }
 
-/* ==============================
-   Navbar negro en product.html
-   ============================== */
 body.product-page .topbar {
   background: var(--bg-cream);
-  /* mantiene tu fondo crema */
 }
 
-/* enlaces y botones de nav en negro */
 body.product-page .topbar .nav-link,
 body.product-page .topbar button,
 body.product-page .topbar input,
@@ -381,14 +318,12 @@ body.product-page .topbar svg {
   fill: #ffffff !important;
 }
 
-/* hover inverso (blanco) */
 body.product-page .topbar .nav-link:hover,
 body.product-page .topbar button:hover {
   color: #595959 !important;
   fill: #595959 !important;
 }
 
-/* si tu buscador es un input de .search, también: */
 body.product-page .topbar .search {
   border-color: #000;
   color: #000;

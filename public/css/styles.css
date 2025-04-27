@@ -1,4 +1,3 @@
-/* =====  Variables  ===== */
 :root {
   --bg-page: #6b7c8c;
   --bg-card: #fff;
@@ -13,7 +12,6 @@
 
 
 
-/* =====  Reset mÃ­nimo  ===== */
 *,
 *::before,
 *::after {
@@ -27,7 +25,6 @@ body {
   min-height: 100vh;
 }
 
-/* =====  Topbar  ===== */
 .topbar {
   background: var(--bg-card);
 
@@ -48,12 +45,10 @@ body {
 
 .topbar .nav-link {
   color: #ffffff;
-  /* texto negro */
   text-decoration: none;
-  /* sin subrayado */
+
 }
 
-/* Opcional: si quieres mantener el negro al pasar el ratón */
 .topbar .nav-link:hover {
   color: #000;
   text-decoration: none;
@@ -71,21 +66,20 @@ body {
   font-size: .8rem
 }
 
-/* =====  Wrapper  ===== */
 .wrapper {
-  /* max-width: 1200px; */
+
   margin: 1.5rem auto;
   padding: 0 var(--gap);
 }
 
-/* =====  Grid de tarjetas  ===== */
+
 .grid {
   display: grid;
   gap: var(--gap);
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 
-/* =====  Tarjeta contacto  ===== */
+
 .card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -143,7 +137,7 @@ body {
   margin-top: .6rem
 }
 
-/* =====  Formulario  ===== */
+
 .form-card {
   max-width: 600px;
   margin: 0 auto var(--gap);
@@ -208,7 +202,7 @@ body {
   background-repeat: no-repeat;
 }
 
-/* Topbar */
+
 .topbar {
   background: transparent;
   position: absolute;
@@ -274,15 +268,13 @@ body {
   border-radius: 50%;
 }
 
-/* ---------- HERO ---------- */
-/* ===== HERO (ocupa 100 % del alto visible) ===== */
 .hero {
   position: relative;
   height: 100vh;
-  /* --> siempre 100 % del viewport  */
+
   min-height: 600px;
-  /* (por si pantallas muy bajas)    */
-  /* background: url('img/hero.jpg') center/cover no-repeat; */
+
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -290,27 +282,22 @@ body {
   text-align: center;
 }
 
-/* texto dentro del hero (sin cajetín opaco)  */
 .hero .hero-text {
   color: #fff;
   max-width: 720px;
   padding: 0 1.5rem;
 }
 
-/* Título – grande y limpio */
 .hero h1 {
   font-size: clamp(2.5rem, 4vw, 4rem);
-  /* fluido entre 2.5 – 4 rem */
   font-weight: 700;
   line-height: 1.15;
   color: #fff;
   margin: 0 0 1.5rem;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 6px rgba(0, 0, 0, .35);
-  /* sutil para que siempre se lea */
 }
 
-/* Botón outline blanco y sin relleno de fondo */
 .hero .btn-white {
   display: inline-block;
   color: #fff;
@@ -330,7 +317,6 @@ body {
   color: #000;
 }
 
-/* ---------- SECTIONS ---------- */
 .section-block {
   margin-bottom: 2rem;
 }
@@ -353,7 +339,6 @@ body {
   font-family: 'Satoshi', sans-serif;
 }
 
-/* ---------- NEW IN grid (3 col scroll) ---------- */
 .grid-new {
   display: grid;
   grid-auto-flow: column;
@@ -397,7 +382,6 @@ body {
   color: #555;
 }
 
-/* ---------- CATEGORÍAS grid ---------- */
 .grid-cat {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -432,11 +416,9 @@ body {
   padding: .5rem;
 }
 
-/* ---------- NEW IN ---------- */
 .grid-new {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 3 columnas de la misma anchura */
   gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -448,7 +430,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 260px;
-  /* ← alto uniforme */
   box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
 }
 
@@ -479,10 +460,8 @@ body {
   font-size: .85rem;
 }
 
-/* ---------- CATEGORÍAS POPULARES ---------- */
 .grid-cat {
   margin-top: 2rem;
-  /* separa del bloque anterior  */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
@@ -517,14 +496,11 @@ body {
   letter-spacing: .5px;
 }
 
-/* =======  HOME “NEW IN”  ======= */
 #newGrid {
-  /* centramos y damos aire a los lados */
   max-width: 1400px;
   margin: 1.5rem auto;
   padding: 0 1rem;
 
-  /* tres columnas grandes, que se adaptan ↓ */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
@@ -538,15 +514,12 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  /* para que todas midan lo mismo */
 }
 
 
-/* imagen cuadrada 1 : 1  */
 .card-new img {
   width: 100%;
   aspect-ratio: 1/1;
-  /* <— solo funciona en navegadores modernos  */
   object-fit: cover;
 }
 
@@ -560,7 +533,6 @@ body {
   font-size: .9rem;
 }
 
-/* =======  HOME “CATEGORÍAS POPULARES”  ======= */
 #catGrid {
   max-width: 1400px;
   margin: 1.5rem auto 3rem;
@@ -569,7 +541,6 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   grid-auto-rows: 160px;
-  /* todas cuadradas */
   gap: 1.25rem;
 }
 
@@ -579,7 +550,6 @@ body {
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  /* todas cuadradas */
   gap: 1.25rem;
 }
 
@@ -601,7 +571,6 @@ body {
   object-fit: cover;
 }
 
-/* título en el centro */
 .card-cat h3 {
   position: absolute;
   inset: 0;
@@ -621,7 +590,6 @@ body {
 
 
 
-/* =======  SECCIONES ======= */
 .section-title {
   padding: 0 1rem;
   max-width: 1400px;
@@ -630,7 +598,6 @@ body {
   font-weight: 700;
 }
 
-/* ---- modal búsqueda ------------------------------------------- */
 .search-modal {
   position: fixed;
   inset: 0;
@@ -716,7 +683,6 @@ body {
   text-decoration: none;
 }
 
-/* Carrito */
 .cart-item {
   display: flex;
   align-items: center;
@@ -735,7 +701,6 @@ body {
   margin-top: 1rem;
 }
 
-/* Pedidos */
 .order-card {
   border: 1px solid #ddd;
   border-radius: .5rem;
@@ -757,18 +722,12 @@ body {
 }
 
 
-/* --- SÓLO para product.html ------------------------------------ */
 #productPage {
-  /* es el <main id="productPage">… */
   max-width: none;
-  /* ocupa todo el ancho */
   margin: 0;
-  /* sin centrar */
   padding: 0;
-  /* sin hueco lateral */
 }
 
-/* === sólo para Home: quita el bg del body y pon crema === */
 body.home-page {
   background-image: none !important;
   background: #f5f4e9 !important;
@@ -782,7 +741,6 @@ body.cart-page {
   text-align: center;
 }
 
-/* Hero full-bleed en Home */
 body.home-page .hero {
   height: 100vh;
   background: url('https://www.howdens.com/bedrooms/-/media/howdens/assets/clh_asset_products/clh_asset_levela_108418/clh_asset_levelb_25552878/clh_asset_levelc_25596378/ass_25592278.jpg') center/cover no-repeat;
@@ -792,58 +750,46 @@ body.home-page .hero {
   text-align: center;
 }
 
-/* Después del hero, que vuelva al crema */
 body.home-page .hero+* {
   background-color: #f5f4e9;
 }
 
 
-/* ===========================
-   Home “New In” – título y precio inline
-   =========================== */
 .card-new .info .title-price {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 700;
-  /* pone todo el h3 en negrita */
   margin: 0;
-  /* quita márgenes extra */
   font-size: 1rem;
   color: #000;
-  /* ajusta si hace falta */
 }
 
 .card-new .info .price {
   font-weight: 700;
-  /* refuerza negrita en el precio */
   white-space: nowrap;
-  /* evita que el precio se mueva a la siguiente línea */
 
 }
 
-/* 1) Quitar el subrayado de los enlaces en las cards */
 .card-new-link,
 .card-new-link h3 a {
   text-decoration: none !important;
 }
 
-/* Si usas un <span class="price"> dentro del h3, puedes también: */
 .card-new .info .title-price a {
   text-decoration: none !important;
 }
 
-/* 2) Ajustar el espacio de texto dentro de la card */
 .card-new .info {
-  /* Espacio interior más compacto */
+
   padding: .5rem 1rem !important;
-  /* Altura automática (no forzada al 40% del contenedor) */
+
   height: auto !important;
-  /* Evita un mínimo de altura excesivo */
+
   min-height: initial !important;
 }
 
-/* Opcional: si aún quieres alinear nombre y precio */
+
 .card-new .info .title-price {
   display: flex;
   justify-content: space-between;
@@ -851,31 +797,30 @@ body.home-page .hero+* {
   gap: .5rem;
 }
 
-/* 1) Cards auto-height (elimina 100%/260px u otras alturas fijas) */
+
 .card-new {
   height: auto !important;
 }
 
-/* 2) Info no estira la card por debajo */
+
 .card-new .info {
-  /* quita cualquier flex que estire al 100% */
+
   flex: none !important;
-  /* padding compacto */
+
   padding: .75rem .75rem !important;
-  /* que ocupe solo su contenido */
+
   height: auto !important;
   min-height: 0 !important;
 }
 
-/* 3) Para empujar solo el gap que quieras, si necesitas */
-/* por ejemplo: */
+
 .grid-new {
   gap: 1rem;
-  /* ajusta vertical y horizontalmente */
+
 }
 
 
-/* Unificar el estilo “Home” en Products y Categories */
+
 .card-new {
   background: #fff;
   border-radius: 25px;
@@ -884,47 +829,47 @@ body.home-page .hero+* {
   display: flex;
   flex-direction: column;
   height: auto;
-  /* auto‐height */
+
 }
 
 .card-new img {
   width: 100%;
   aspect-ratio: 1/1;
-  /* cuadrado perfecto */
+
   object-fit: cover;
 }
 
-/* 1) Permitir wrapping del título */
+
 .card-new .info {
   display: flex;
   flex-wrap: wrap;
-  /* permitir varias filas */
+
   justify-content: center;
-  /* centrar horizontalmente */
+
   align-items: center;
   padding: .75rem 1rem;
   gap: .5rem;
-  /* un poquito de espacio */
+
 }
 
-/* 2) El título ocupa todo el ancho disponible y puede hacer wrap */
+
 .card-new .info .title-price {
   flex: 1 1 0;
-  /* puede crecer, encoger y partir en 0px */
+
   white-space: normal;
-  /* permitir saltos de línea */
+
   word-break: break-word;
-  /* partir palabras largas si hace falta */
+
   text-align: center;
-  /* centrar el texto */
+
   margin: 0;
-  /* quitar márgenes extra */
+
 }
 
-/* 3) El precio se queda justo al lado, pero si no cabe baja abajo */
+
 .card-new .info .price {
   flex: 0 0 auto;
-  /* tamaño fijo al contenido */
+
   font-weight: 700;
   text-align: center;
 }
@@ -934,17 +879,17 @@ body {
   background-image: none !important;
 }
 
-/* ——— Grid responsive de Home “New In” ——— */
+
 #productsGrid2 {
   display: grid !important;
   gap: var(--gap) !important;
   padding: 0 var(--gap) !important;
   margin: 3rem !important;
-  /* columnas más pequeñas y adaptables */
+
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
 }
 
-/* ——— Card de New In ——— */
+
 #productsGrid2 .card-new {
   display: flex;
   flex-direction: column;
@@ -953,23 +898,23 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
   height: auto !important;
-  /* auto‐height según contenido */
+
 }
 
-/* ——— Imagen recortada que cubre todo el marco ——— */
+
 #productsGrid2 .card-new img {
   width: 100%;
   height: 350px;
-  /* alto fijo de “marco” */
+
   object-fit: cover;
-  /* recorta, pero cubre todo */
+
   display: block;
-  /* elimina gaps */
+
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
 }
 
-/* ——— Info compacta debajo de la foto ——— */
+
 #productsGrid2 .card-new .info {
   padding: .5rem 1rem !important;
   display: flex;
@@ -977,7 +922,7 @@ body {
   gap: .25rem;
 }
 
-/* ——— Título y precio inline ——— */
+
 #productsGrid2 .card-new .title-price {
   display: flex;
   justify-content: space-between;
@@ -994,13 +939,13 @@ body {
   font-size: .8rem;
 }
 
-/* =====  H3 centrado sobre imagen en categorías.html  ===== */
+
 #catGrid2 .card-new {
   position: relative;
   border-radius: 25px;
   overflow: hidden;
   height: 180px;
-  /* ajusta si quieres otra altura */
+
 }
 
 #catGrid2 .card-new img {
@@ -1026,11 +971,11 @@ body {
   letter-spacing: .5px;
   text-align: center;
   background: transparent;
-  /* importante */
+
   pointer-events: none;
 }
 
-/* si quieres centrar solo ese h1 en su contenedor */
+
 .wrapper h1 {
   text-align: center;
   margin: 0 auto 1rem;
@@ -1052,22 +997,19 @@ body:not(.home-page) .topbar input {
 
 
 
-/* ================= Carrito: ajustes finos ================ */
+
 .cart-page {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   align-items: start;
-  /* alineamos al principio, no estirar */
+
   margin-top: 2rem;
 }
 
-/* Cada item sigue igual… */
-.cart-items .cart-item {
-  /* … */
-}
 
-/* Resumen */
+
+
 .cart-summary {
 
   padding: 1.5rem;
@@ -1075,24 +1017,24 @@ body:not(.home-page) .topbar input {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  /* IMPORTANTE: quitar cualquier height o flex-grow */
+
   height: auto;
-  /* auto‐height según contenido */
+
   max-height: none;
-  /* elimina límites previos */
+
 }
 
-/* Título del resumen */
+
 .cart-summary h3 {
   font-size: 1.25rem;
   margin: 0 0 1rem;
   text-align: left;
-  /* igual que imagen */
+
   border-bottom: 1px solid #ddd;
   padding-bottom: .5rem;
 }
 
-/* Total lineal */
+
 .cart-summary .total-row {
   display: flex;
   justify-content: space-between;
@@ -1100,10 +1042,10 @@ body:not(.home-page) .topbar input {
   font-weight: 600;
 }
 
-/* Botón */
+
 .cart-summary .btn-place-order {
   margin-top: auto;
-  /* empuja el botón abajo si sobra espacio */
+
   background: #941b80;
   color: #fff;
   border: none;
@@ -1113,12 +1055,12 @@ body:not(.home-page) .topbar input {
   cursor: pointer;
   width: 100%;
   box-shadow: none;
-  /* match botón imagen 1 */
+
 }
 
 
 
-/* Línea divisoria entre items y resumen */
+
 .cart-items {
   border-right: 1px solid #ddd;
   padding-right: 2rem;
@@ -1126,7 +1068,6 @@ body:not(.home-page) .topbar input {
 }
 
 
-/* =====  Responsivo  ===== */
 @media(max-width:575px) {
   .grid {
     grid-template-columns: 1fr

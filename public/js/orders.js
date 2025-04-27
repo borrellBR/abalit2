@@ -1,4 +1,3 @@
-// public/js/orders.js
 document.addEventListener('DOMContentLoaded', () => {
   renderOrders();
 });

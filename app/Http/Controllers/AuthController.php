@@ -60,7 +60,6 @@ class AuthController extends Controller
 
   public function forgotPassword(Request $request)
   {
-    // Simulación
     return response()->json(['message' => 'Email de recuperación enviado']);
   }
 

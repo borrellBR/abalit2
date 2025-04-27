@@ -1,4 +1,3 @@
-// public/js/product.js
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(location.search);
@@ -54,12 +53,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('addCart').addEventListener('click', () => {
       const qty = parseInt(document.getElementById('qty').value, 10) || 1;
-      // Aquí tu lógica de carrito:
       let cart = JSON.parse(localStorage.getItem('cart') || '[]');
       cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty });
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`Añadido ${qty} × ${p.name} al carrito.`);
-      // Actualiza el contador:
       const count = cart.reduce((sum, it) => sum + it.qty, 0);
       document.getElementById('cartCount').textContent = count;
     });

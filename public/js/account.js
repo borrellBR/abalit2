@@ -1,9 +1,9 @@
-// public/js/account.js
+
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
-  if (!token) return location.href = 'login.html';   // no logueado
+  if (!token) return location.href = 'login.html';
 
-  /* ---- 1. Cargar datos del usuario ----------------------------------- */
+
   fetch('/api/user', {
     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
   })
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return r.json();
     })
     .then(u => {
-      /* Rellena el formulario con los datos actuales */
+
       document.getElementById('name').value = u.name ?? '';
       document.getElementById('email').value = u.email ?? '';
       document.getElementById('phone').value = u.phone ?? '';
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  /* ---- 2. Guardar cambios -------------------------------------------- */
+
   document.getElementById('accountForm').addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* Utilidad para mostrar alertas */
+
 function showMsg(text, isError = false) {
   const box = document.getElementById('msg');
   box.textContent = text;

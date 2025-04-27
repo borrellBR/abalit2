@@ -1,16 +1,16 @@
-// Escapa caracteres peligrosos para evitar inyecciones HTML
+
 const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
 }[c]));
 
-// Referencias al DOM
+
 const formBox = document.getElementById('formBox');
-const categoriesSection = document.getElementById('catGrid2');  // es el que sí existe
+const categoriesSection = document.getElementById('catGrid2');
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const searchBox = document.getElementById('searchBox');
 
-// Al cargar el DOM
+
 document.addEventListener('DOMContentLoaded', () => {
   getCategories();
   document.getElementById('btnSave').addEventListener('click', saveCategory);
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleGridClick(e) {
-  const article = e.target.closest('article');      // lo que sea que pulses
+  const article = e.target.closest('article');
   if (!article) return;
 
   const id = article.dataset.id;
@@ -34,14 +34,14 @@ function handleGridClick(e) {
   const description = article.dataset.description;
 
 
-  if (e.target.closest('.btn-edit')) {              // clic en “Editar”
+  if (e.target.closest('.btn-edit')) {
     prepareEdit(id, name, description);
   } else if (e.target.closest('.btn-delete')) {
     deleteCategory(id);
   } else if (e.target.closest('.btn-view')) {
     showProducts(id, name);
   } else {
-    showProducts(id, name);                         // clic en cualquier otra zona
+    showProducts(id, name);
   }
 }
 
@@ -72,14 +72,14 @@ async function getCategories(q = '') {
 
   const res = await fetch(`/api/categories${q ? `?q=${encodeURIComponent(q)}` : ''}`, { headers });
 
-  // 401 → mandar al login y salir
+
   if (res.status === 401) {
-    localStorage.removeItem('token');              // token inválido
+    localStorage.removeItem('token');
     document.getElementById('loginModal').style.display = 'flex';
     return;
   }
 
-  // cualquier otro error
+
   if (!res.ok) {
     console.error('Error al cargar categorías', await res.text());
     alert('No se pudieron cargar las categorías');
@@ -110,7 +110,6 @@ async function saveCategory() {
 
   const token = localStorage.getItem('token');
   if (!token) {
-    // si no hay token, fuerza login
     return location.href = 'login.html';
   }
 
@@ -124,7 +123,6 @@ async function saveCategory() {
   });
 
   if (res.status === 401) {
-    // token caducado o inválido
     localStorage.removeItem('token');
     return location.href = 'login.html';
   }
@@ -135,7 +133,7 @@ async function saveCategory() {
     return alert('No se pudo guardar la categoría.');
   }
 
-  // todo OK
+
   hideForm();
   getCategories();
 }
@@ -182,25 +180,25 @@ function hideProducts() {
 }
 
 async function showProducts(categoryId, categoryName) {
-  // 1) No ocultes las categorías:
-  // categoriesSection.style.display = 'none';
 
-  // 2) Asegúrate de que la sección de productos esté siempre en el DOM
+
+
+
   productsSection.style.display = 'block';
   productsTitle.textContent = `Productos de: ${categoryName}`;
 
-  // 3) Scroll suave hasta esa sección (opcional)
+
   productsSection.style.display = 'block';
   productsTitle.textContent = `Productos de: ${categoryName}`;
 
-  // 3) fetch y renderProducts aquí
-  //    await fetch… renderProducts(list);
 
-  // 4) espera a que pinte y luego scroll
+
+
+
   setTimeout(() => {
-    // primero lleva al top de la sección
+
     productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // luego baja 300px más
+
     setTimeout(() => {
       window.scrollBy({ top: 300, behavior: 'smooth' });
     }, 300);
@@ -211,7 +209,7 @@ async function showProducts(categoryId, categoryName) {
   const res = await fetch(
     `/api/categories/${categoryId}`,
     {
-      method: 'GET',  // 👉 forzar GET
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Authorization': token ? `Bearer ${token}` : ''
@@ -220,7 +218,7 @@ async function showProducts(categoryId, categoryName) {
   );
 
   if (res.status === 401) {
-    // no autenticado
+
     localStorage.removeItem('token');
     alert('Por favor inicia sesión para ver los productos.');
     return;
@@ -250,7 +248,7 @@ function renderProducts(list) {
   list.forEach(p => {
     const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
 
-    // codificamos parámetros para el modal y la edición
+
     const name = encodeURIComponent(p.name);
     const description = encodeURIComponent(p.description);
     const price = encodeURIComponent(p.price);

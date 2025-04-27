@@ -1,14 +1,12 @@
-/* ---------------------------------- home.js --------------------------------- */
-/* 1.  Genera URLs sin parámetros vacíos  ------------------------------------- */
+
 function buildUrl(base, params = {}) {
-  const url = new URL(base, location.origin);          //  http://localhost/.../api/*
+  const url = new URL(base, location.origin);
   Object.entries(params).forEach(([k, v]) => {
     if (v != null && v !== '') url.searchParams.set(k, v);
   });
-  return url;                                          //  …/api/products?latest=3
+  return url;
 }
 
-/* 2.  SVG por defecto (“Sin imagen”)  ---------------------------------------- */
 const NO_IMG =
   'data:image/svg+xml;base64,' +
   btoa(`<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
@@ -19,17 +17,16 @@ const NO_IMG =
           </text>
         </svg>`);
 
-/* 3.  Al cargar la página ----------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   loadNewProducts();
   loadPopularCats();
 
-  // Si tu navbar define estas funciones, se re-ejecutan:
+
   window.initSearch?.();
   window.updateAuthUI?.();
 });
 
-/* ---------- NEW IN (3 últimos productos) ------------------------------------ */
+
 async function loadNewProducts() {
   try {
     const res = await fetch(buildUrl('/api/products', { latest: 3 }));
@@ -43,7 +40,7 @@ function renderNewIn(list) {
   if (!grid) return;
   grid.innerHTML = '';
 
-  // js/home.js (o donde estés inyectando las cards)
+
   list.forEach(p => {
     const priceFmt = Number(p.price).toLocaleString('es-ES', {
       style: 'currency',
@@ -66,16 +63,16 @@ function renderNewIn(list) {
 
 }
 
-/* ---------- CATEGORÍAS POPULARES (5 últimas) -------------------------------- */
+
 async function loadPopularCats() {
   try {
     const url = buildUrl('/api/categories', { latest: 5 });
     console.log('Fetching URL:', url.toString());
     const res = await fetch(url);
     console.log('Response status:', res.status, 'OK:', res.ok);
-    const text = await res.text(); // Get raw response
-    console.log('Raw response:', text); // Log the raw response
-    const list = JSON.parse(text); // Attempt to parse
+    const text = await res.text();
+    console.log('Raw response:', text);
+    const list = JSON.parse(text);
     if (Array.isArray(list)) renderCatGrid(list);
   } catch (err) {
     console.error('loadPopularCats', err);
@@ -97,18 +94,15 @@ function renderCatGrid(list) {
   });
 }
 
-/* ⬇︎ NUEVO — un solo listener para todo el grid */
+
 document.addEventListener('DOMContentLoaded', () => {
-  // ya tenías loadNewProducts() y loadPopularCats()
+
   const catGrid = document.getElementById('catGrid');
   catGrid.addEventListener('click', e => {
     const card = e.target.closest('.card-cat');
-    if (!card) return;                        // no se pulsó en una tarjeta
+    if (!card) return;
     const id = card.dataset.id;
-    // guardamos el id y saltamos a Categories:
     localStorage.setItem('selectedCat', id);
     location.href = 'categories.html';
   });
 });
-
-/* --------------------------------------------------------------------------- */

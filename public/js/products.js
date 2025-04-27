@@ -1,19 +1,16 @@
-// Escapa caracteres peligrosos para evitar inyecciones HTML
 const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
 }[c]));
 
-// Referencias al DOM
 const formBox = document.getElementById('formBox');
 const categorySelect = document.getElementById('category');
-const categoriesSection = document.getElementById('catGrid2');  // es el que sí existe
+const categoriesSection = document.getElementById('catGrid2');
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const productDetailsModal = document.getElementById('productDetailsModal');
 const productDetailsContent = document.getElementById('productDetailsContent');
 const searchBox = document.getElementById('searchBox');
 
-// Al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
   loadCategoriesIntoSelect();
   getProducts();
@@ -86,7 +83,6 @@ function handlePrepareEdit(id, categoryId, name, description, price) {
 }
 
 async function getProducts(q = '') {
-  // Sólo añadimos Authorization si existe token
   const token = localStorage.getItem('token');
   const headers = { 'Accept': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -96,9 +92,9 @@ async function getProducts(q = '') {
     { headers }
   );
 
-  if (res.status === 401) {                     // usuario no logueado
+  if (res.status === 401) {
     localStorage.removeItem('token');
-    window.location.href = '/login.html';       // o muestra tu modal
+    window.location.href = '/login.html';
     return;
   }
 
@@ -164,7 +160,6 @@ function renderProducts(list) {
   list.forEach(p => {
     const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
 
-    // codificamos parámetros para el modal y la edición
     const name = encodeURIComponent(p.name);
     const description = encodeURIComponent(p.description);
     const price = encodeURIComponent(p.price);
@@ -184,7 +179,6 @@ function renderProducts(list) {
   });
 }
 
-// Mostrar detalles del producto en un modal
 function showProductDetails(name, description, price, category) {
   productDetailsContent.innerHTML = `
     <h2>${name}</h2>
