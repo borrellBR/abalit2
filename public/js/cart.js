@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function getCart() {
   return JSON.parse(localStorage.getItem('cart') || '[]');
 }
-
 function setCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -42,13 +41,19 @@ function renderCart() {
   itemsCt.innerHTML = cart.map(item => {
     const subtotal = item.price * item.qty;
     total += subtotal;
-    const imgSrc = item.image
-      ? `/storage/${item.image}`
-      : 'img/placeholder.jpg';
+
+    let img = 'img/placeholder.jpg';
+    if (item.image_url) {
+      img = item.image_url;
+    } else if (item.image && /^https?:\/\//.test(item.image)) {
+      img = item.image;
+    } else if (item.image) {
+      img = `/storage/${item.image}`;
+    }
 
     return `
       <div class="cart-item">
-        <img src="${imgSrc}" alt="${item.name}" class="thumb">
+        <img src="${img}" alt="${item.name}" class="thumb">
         <div class="info">
           <h4>${item.name}</h4>
           <p class="price">${item.price.toLocaleString('es-ES', {
@@ -102,12 +107,11 @@ function placeOrder() {
   if (!cart.length) return;
 
   const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-  const newOrder = {
+  orders.push({
     id: Date.now(),
     date: new Date().toLocaleString(),
     items: cart
-  };
-  orders.push(newOrder);
+  });
   localStorage.setItem('orders', JSON.stringify(orders));
 
   localStorage.removeItem('cart');
