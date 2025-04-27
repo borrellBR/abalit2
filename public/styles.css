@@ -28,7 +28,7 @@ body {
 /* =====  Topbar  ===== */
 .topbar {
   background: var(--bg-card);
-  box-shadow: var(--shadow);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1018,6 +1018,18 @@ body {
   margin: 0 auto 1rem;
 }
 
+
+
+
+
+
+body:not(.home-page) .topbar .nav-link,
+body:not(.home-page) .topbar #cartCount,
+body:not(.home-page) .topbar .cart,
+body:not(.home-page) .topbar button,
+body:not(.home-page) .topbar input {
+  color: #000 !important;
+}
 
 
 
