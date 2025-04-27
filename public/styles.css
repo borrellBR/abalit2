@@ -11,6 +11,8 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
+
+
 /* =====  Reset mÃ­nimo  ===== */
 *,
 *::before,
@@ -45,7 +47,7 @@ body {
 }
 
 .topbar .nav-link {
-  color: #000;
+  color: #ffffff;
   /* texto negro */
   text-decoration: none;
   /* sin subrayado */
@@ -232,7 +234,7 @@ body {
 }
 
 .topbar .nav-link {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -770,6 +772,14 @@ body {
 body.home-page {
   background-image: none !important;
   background: #f5f4e9 !important;
+}
+
+body.cart-page {
+  height: 100vh;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Hero full-bleed en Home */

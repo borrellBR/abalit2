@@ -10,9 +10,9 @@
 .topbar button,
 .topbar .search input,
 .topbar .cart svg {
-  color: #000 !important;
-  fill: #000 !important;
-  border-color: #000 !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  border-color: #ffffff !important;
   /* para inputs/botones que dibujan un borde */
 }
 
