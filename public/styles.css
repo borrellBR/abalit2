@@ -228,10 +228,11 @@ body {
 .topbar nav {
   display: flex;
   gap: 2rem;
+  margin-left: 4rem;
 }
 
 .topbar .nav-link {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -687,7 +688,12 @@ body {
 .suggest-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 120px);
-  gap: 1rem
+  gap: 1rem;
+}
+
+.sugg-card {
+  color: #000;
+  text-decoration: none;
 }
 
 .sugg-card img {
@@ -704,7 +710,8 @@ body {
 
 .sugg-card span {
   font-size: .8rem;
-  color: #555
+  color: #000000;
+  text-decoration: none;
 }
 
 /* Carrito */
@@ -1026,7 +1033,7 @@ body {
 
 body:not(.home-page) .topbar .nav-link,
 body:not(.home-page) .topbar #cartCount,
-body:not(.home-page) .topbar .cart,
+body:not(.home-page) .topbar .cart-page,
 body:not(.home-page) .topbar button,
 body:not(.home-page) .topbar input {
   color: #000 !important;
@@ -1087,7 +1094,7 @@ body:not(.home-page) .topbar input {
 .cart-summary .btn-place-order {
   margin-top: auto;
   /* empuja el botón abajo si sobra espacio */
-  background: var(--accent);
+  background: #941b80;
   color: #fff;
   border: none;
   padding: .75rem;
@@ -1098,6 +1105,8 @@ body:not(.home-page) .topbar input {
   box-shadow: none;
   /* match botón imagen 1 */
 }
+
+
 
 /* Línea divisoria entre items y resumen */
 .cart-items {
