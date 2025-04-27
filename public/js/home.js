@@ -43,21 +43,27 @@ function renderNewIn(list) {
   if (!grid) return;
   grid.innerHTML = '';
 
+  // js/home.js (o donde estés inyectando las cards)
   list.forEach(p => {
+    const priceFmt = Number(p.price).toLocaleString('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    });
     grid.insertAdjacentHTML('beforeend', `
-        <a href="product.html?id=${p.id}" class="card-new-link">
+    <a href="product.html?id=${p.id}" class="card-new-link">
       <article class="card-new">
         <img src="${p.image ? `/storage/${p.image}` : NO_IMG}" alt="${p.name}">
         <div class="info">
-          <h3>${p.name}</h3>
-          <span class="price">
-            ${Number(p.price).toLocaleString('es-ES',
-      { style: 'currency', currency: 'EUR' })}
-          </span>
+          <h3 class="title-price">
+            ${p.name}
+            <span class="price">${priceFmt}</span>
+          </h3>
         </div>
       </article>
-    `);
+    </a>
+  `);
   });
+
 }
 
 /* ---------- CATEGORÍAS POPULARES (5 últimas) -------------------------------- */

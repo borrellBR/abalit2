@@ -236,6 +236,7 @@ function renderProducts(list) {
         <h3>${esc(p.name)}</h3>
         <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
         <small>Descripción: ${esc(p.description)}</small>
+
         <small>Precio: ${esc(p.price)} €</small>
         <div class="actions">
           <button class="btn btn-edit"

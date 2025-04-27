@@ -767,6 +767,82 @@ body.home-page .hero+* {
 }
 
 
+/* ===========================
+   Home “New In” – título y precio inline
+   =========================== */
+.card-new .info .title-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  /* pone todo el h3 en negrita */
+  margin: 0;
+  /* quita márgenes extra */
+  font-size: 1rem;
+  color: #000;
+  /* ajusta si hace falta */
+}
+
+.card-new .info .price {
+  font-weight: 700;
+  /* refuerza negrita en el precio */
+  white-space: nowrap;
+  /* evita que el precio se mueva a la siguiente línea */
+
+}
+
+/* 1) Quitar el subrayado de los enlaces en las cards */
+.card-new-link,
+.card-new-link h3 a {
+  text-decoration: none !important;
+}
+
+/* Si usas un <span class="price"> dentro del h3, puedes también: */
+.card-new .info .title-price a {
+  text-decoration: none !important;
+}
+
+/* 2) Ajustar el espacio de texto dentro de la card */
+.card-new .info {
+  /* Espacio interior más compacto */
+  padding: .5rem 1rem !important;
+  /* Altura automática (no forzada al 40% del contenedor) */
+  height: auto !important;
+  /* Evita un mínimo de altura excesivo */
+  min-height: initial !important;
+}
+
+/* Opcional: si aún quieres alinear nombre y precio */
+.card-new .info .title-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* 1) Cards auto-height (elimina 100%/260px u otras alturas fijas) */
+.card-new {
+  height: auto !important;
+}
+
+/* 2) Info no estira la card por debajo */
+.card-new .info {
+  /* quita cualquier flex que estire al 100% */
+  flex: none !important;
+  /* padding compacto */
+  padding: .75rem .75rem !important;
+  /* que ocupe solo su contenido */
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* 3) Para empujar solo el gap que quieras, si necesitas */
+/* por ejemplo: */
+.grid-new {
+  gap: 1rem;
+  /* ajusta vertical y horizontalmente */
+}
+
 
 /* =====  Responsivo  ===== */
 @media(max-width:575px) {
