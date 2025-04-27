@@ -27,13 +27,16 @@
     closeBtn.addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
+    // Carga categorías
     (async () => {
       const r = await fetch('/api/categories?latest=5');
       const cats = await r.json();
       catBox.innerHTML = cats.map(c => `<span class="tag">${c.name}</span>`).join('');
     })();
 
+    // Carga sugerencias iniciales
     loadSuggestions();
+
     async function loadSuggestions() {
       const r = await fetch('/api/products?latest=3');
       render(await r.json());
@@ -55,13 +58,30 @@
     }
 
     function render(list = []) {
-      grid.innerHTML = list.map(p => `
+      grid.innerHTML = list.map(p => {
+        // lógica de URL de imagen: prioriza image_url, luego URLs absolutas en p.image,
+        // finalmente /storage/… si es ruta relativa
+        let img;
+        if (p.image_url) {
+          img = p.image_url;
+        } else if (p.image && /^https?:\/\//.test(p.image)) {
+          img = p.image;
+        } else if (p.image) {
+          img = `/storage/${p.image}`;
+        } else {
+          img = NO_IMG;
+        }
+
+        return `
           <a href="product.html?id=${p.id}">
-        <article class="sugg-card">
-          <img src="${p.image ? '/storage/' + p.image : NO_IMG}" alt="${p.name}">
-          <h5>${p.name}</h5>
-          <span>${money(p.price)}</span>
-        </article>`).join('');
+            <article class="sugg-card">
+              <img src="${img}" alt="${p.name}">
+              <h5>${p.name}</h5>
+              <span>${money(p.price)}</span>
+            </article>
+          </a>
+        `;
+      }).join('');
     }
   });
 })();
