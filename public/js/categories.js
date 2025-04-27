@@ -182,9 +182,30 @@ function hideProducts() {
 }
 
 async function showProducts(categoryId, categoryName) {
-  categoriesSection.style.display = 'none';
+  // 1) No ocultes las categorías:
+  // categoriesSection.style.display = 'none';
+
+  // 2) Asegúrate de que la sección de productos esté siempre en el DOM
   productsSection.style.display = 'block';
   productsTitle.textContent = `Productos de: ${categoryName}`;
+
+  // 3) Scroll suave hasta esa sección (opcional)
+  productsSection.style.display = 'block';
+  productsTitle.textContent = `Productos de: ${categoryName}`;
+
+  // 3) fetch y renderProducts aquí
+  //    await fetch… renderProducts(list);
+
+  // 4) espera a que pinte y luego scroll
+  setTimeout(() => {
+    // primero lleva al top de la sección
+    productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // luego baja 300px más
+    setTimeout(() => {
+      window.scrollBy({ top: 300, behavior: 'smooth' });
+    }, 300);
+  }, 100);
+
 
   const token = localStorage.getItem('token');
   const res = await fetch(
@@ -229,14 +250,21 @@ function renderProducts(list) {
   list.forEach(p => {
     const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
 
+    // codificamos parámetros para el modal y la edición
+    const name = encodeURIComponent(p.name);
+    const description = encodeURIComponent(p.description);
+    const price = encodeURIComponent(p.price);
+
     grid.insertAdjacentHTML('beforeend', `
-      <article class="cardw">
-        <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
-        <h3>${esc(p.name)}</h3>
-        <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
-
-        <small>Precio: ${esc(p.price)} €</small>
-
+      <article class="card-new card-new-link"
+               onclick="location.href='product.html?id=${p.id}'">
+        <img src="${imgSrc}" alt="${esc(p.name)}">
+        <div class="info">
+          <h3 class="title-price">${esc(p.name)}</h3>
+          <span class="price">
+            ${Number(p.price).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+          </span>
+        </div>
       </article>
     `);
   });

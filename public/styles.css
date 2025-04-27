@@ -972,7 +972,6 @@ body {
   word-break: break-word;
 }
 
-/* ——— Precio ——— */
 #productsGrid2 .card-new .price {
   font-size: .8rem;
 }
@@ -1012,6 +1011,7 @@ body {
   /* importante */
   pointer-events: none;
 }
+
 
 
 
