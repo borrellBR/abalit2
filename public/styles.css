@@ -451,7 +451,7 @@ body {
 
 .card-new img {
   width: 100%;
-  height: 80%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -538,6 +538,7 @@ body {
   /* para que todas midan lo mismo */
 }
 
+
 /* imagen cuadrada 1 : 1  */
 .card-new img {
   width: 100%;
@@ -565,6 +566,16 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   grid-auto-rows: 160px;
+  /* todas cuadradas */
+  gap: 1.25rem;
+}
+
+#catGrid2 {
+  margin: 1.5rem auto 3rem;
+  padding: 0 1rem;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   /* todas cuadradas */
   gap: 1.25rem;
 }
@@ -604,6 +615,8 @@ body {
   align-items: center;
   text-shadow: 0 2px 4px rgb(0 0 0 /.6);
 }
+
+
 
 /* =======  SECCIONES ======= */
 .section-title {
@@ -962,6 +975,42 @@ body {
 /* ——— Precio ——— */
 #productsGrid2 .card-new .price {
   font-size: .8rem;
+}
+
+/* =====  H3 centrado sobre imagen en categorías.html  ===== */
+#catGrid2 .card-new {
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  height: 180px;
+  /* ajusta si quieres otra altura */
+}
+
+#catGrid2 .card-new img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(.65);
+
+}
+
+#catGrid2 .card-new h3 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: .5rem;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-align: center;
+  background: transparent;
+  /* importante */
+  pointer-events: none;
 }
 
 

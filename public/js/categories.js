@@ -5,7 +5,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
 
 // Referencias al DOM
 const formBox = document.getElementById('formBox');
-const categoriesSection = document.getElementById('catGrid');  // es el que sí existe
+const categoriesSection = document.getElementById('catGrid2');  // es el que sí existe
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const searchBox = document.getElementById('searchBox');
@@ -14,7 +14,7 @@ const searchBox = document.getElementById('searchBox');
 document.addEventListener('DOMContentLoaded', () => {
   getCategories();
   document.getElementById('btnSave').addEventListener('click', saveCategory);
-  document.getElementById('catGrid').addEventListener('click', handleGridClick);
+  document.getElementById('catGrid2').addEventListener('click', handleGridClick);
 
   if (searchBox) {
     let t;
@@ -156,12 +156,11 @@ async function deleteCategory(id) {
 }
 
 function renderCategories(list) {
-  const grid = document.getElementById('catGrid');
+  const grid = document.getElementById('catGrid2');
   grid.innerHTML = '';
 
   list.forEach(c => {
     const imgSrc = c.image ? `/storage/${c.image}` : '';
-
     grid.insertAdjacentHTML('beforeend', `
       <article class="card-new"
         data-id="${c.id}"
@@ -170,14 +169,12 @@ function renderCategories(list) {
         style="cursor:pointer"
       >
         <img src="${imgSrc}" alt="${esc(c.name)}">
-        <div class="info">
-          <h3>${esc(c.name)}</h3>
-        </div>
+        <h3>${esc(c.name)}</h3>
       </article>
     `);
-
   });
 }
+
 
 function hideProducts() {
   productsSection.style.display = 'none';
