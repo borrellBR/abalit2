@@ -1,21 +1,27 @@
 <?php
+// app/Models/Product.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-  use HasFactory;
+  protected $fillable = ['name', 'description', 'price', 'image', 'category_id'];
+  protected $appends = ['image_url'];
 
-  protected $fillable = [
-    'name',
-    'description',
-    'price',
-    'category_id',
-    'image'
-  ];
+
+  public function getImageUrlAttribute(): string
+  {
+    if (!$this->image) {
+      return asset('img/placeholder.jpg');
+    }
+    if (preg_match('#^https?://#i', $this->image)) {
+      return $this->image;
+    }
+    return asset("storage/{$this->image}");
+  }
+
 
   public function category()
   {

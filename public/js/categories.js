@@ -153,25 +153,27 @@ async function deleteCategory(id) {
   getCategories();
 }
 
-function renderCategories(list) {
+function renderCategories(list = []) {
   const grid = document.getElementById('catGrid2');
   grid.innerHTML = '';
 
   list.forEach(c => {
-    const imgSrc = c.image ? `/storage/${c.image}` : '';
+    const imgSrc = c.image_url || 'data:image/svg+xml;base64,PHN2ZyB3...'; // placeholder opcional
+
     grid.insertAdjacentHTML('beforeend', `
       <article class="card-new"
-        data-id="${c.id}"
-        data-name="${esc(c.name)}"
-        data-description="${esc(c.description)}"
-        style="cursor:pointer"
-      >
+               data-id="${c.id}"
+               data-name="${esc(c.name)}"
+               data-description="${esc(c.description)}"
+               style="cursor:pointer"
+               >
         <img src="${imgSrc}" alt="${esc(c.name)}">
         <h3>${esc(c.name)}</h3>
       </article>
     `);
   });
 }
+
 
 
 function hideProducts() {
@@ -240,19 +242,15 @@ async function showProducts(categoryId, categoryName) {
   renderProducts(category.products);
 }
 
-
-function renderProducts(list) {
+function renderProducts(list = []) {
   const grid = document.getElementById('productsGrid');
   grid.innerHTML = '';
 
   list.forEach(p => {
-    const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+    // usa la URL que Laravel ya formatea bien
+    const imgSrc = p.image_url;
 
-
-    const name = encodeURIComponent(p.name);
-    const description = encodeURIComponent(p.description);
-    const price = encodeURIComponent(p.price);
-
+    // escapa con tu función esc() el nombre y descripción
     grid.insertAdjacentHTML('beforeend', `
       <article class="card-new card-new-link"
                onclick="location.href='product.html?id=${p.id}'">

@@ -153,17 +153,15 @@ async function deleteProduct(id) {
   }
 }
 
-function renderProducts(list) {
+function renderProducts(list = []) {
   const grid = document.getElementById('productsGrid');
   grid.innerHTML = '';
 
   list.forEach(p => {
-    const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
+    // usa la URL que Laravel ya formatea bien
+    const imgSrc = p.image_url;
 
-    const name = encodeURIComponent(p.name);
-    const description = encodeURIComponent(p.description);
-    const price = encodeURIComponent(p.price);
-
+    // escapa con tu función esc() el nombre y descripción
     grid.insertAdjacentHTML('beforeend', `
       <article class="card-new card-new-link"
                onclick="location.href='product.html?id=${p.id}'">
@@ -178,6 +176,7 @@ function renderProducts(list) {
     `);
   });
 }
+
 
 function showProductDetails(name, description, price, category) {
   productDetailsContent.innerHTML = `
