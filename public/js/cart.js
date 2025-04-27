@@ -39,8 +39,17 @@ function renderCart() {
     total += subtotal;
     return `
       <div class="cart-item">
-        <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name}" class="thumb" style="width:80px;height:80px;object-fit:cover;">
-        <div class="cart-info">
+<img
+  src="${item.image
+        ? `/storage/${item.image}`
+        : 'img/placeholder.jpg'
+      }"
+  alt="${item.name}"
+  class="thumb"
+  style="width:80px;height:80px;object-fit:cover;"
+>
+
+       <div class="cart-info">
           <h4>${item.name}</h4>
           <p>Precio: ${item.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
           <p>Cantidad: ${item.qty}</p>

@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const qty = parseInt(document.getElementById('qty').value, 10) || 1;
       // Aquí tu lógica de carrito:
       let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      cart.push({ id: p.id, name: p.name, price: p.price, qty });
+      cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty });
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`Añadido ${qty} × ${p.name} al carrito.`);
       // Actualiza el contador:

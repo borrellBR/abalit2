@@ -1012,6 +1012,14 @@ body {
   pointer-events: none;
 }
 
+/* si quieres centrar solo ese h1 en su contenedor */
+.wrapper h1 {
+  text-align: center;
+  margin: 0 auto 1rem;
+}
+
+
+
 
 
 
