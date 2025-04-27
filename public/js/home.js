@@ -41,7 +41,6 @@ function renderNewIn(list) {
       style: 'currency', currency: 'EUR'
     });
 
-    // aquí usamos image_url si viene, o bien comprobamos si p.image es un URL absoluto
     let img = NO_IMG;
     if (p.image_url) {
       img = p.image_url;

@@ -1,6 +1,5 @@
 <?php
 
-// app/Models/Category.php
 
 namespace App\Models;
 
@@ -12,8 +11,6 @@ class Category extends Model
   protected $appends = ['image_url'];
 
 
-  // Accessor: siempre devuelve la URL válida en `image_url`
-  // app/Models/Category.php (y análogo en Product.php)
   public function getImageUrlAttribute(): string
   {
     if (!$this->image) {

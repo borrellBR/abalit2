@@ -247,10 +247,8 @@ function renderProducts(list = []) {
   grid.innerHTML = '';
 
   list.forEach(p => {
-    // usa la URL que Laravel ya formatea bien
     const imgSrc = p.image_url;
 
-    // escapa con tu función esc() el nombre y descripción
     grid.insertAdjacentHTML('beforeend', `
       <article class="card-new card-new-link"
                onclick="location.href='product.html?id=${p.id}'">

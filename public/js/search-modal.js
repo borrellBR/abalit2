@@ -1,4 +1,3 @@
-// public/js/search-modal.js
 (function () {
   document.addEventListener('navbar-injected', () => {
     const openInput = document.getElementById('globalSearch');
@@ -27,14 +26,12 @@
     closeBtn.addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
-    // Carga categorías
     (async () => {
       const r = await fetch('/api/categories?latest=5');
       const cats = await r.json();
       catBox.innerHTML = cats.map(c => `<span class="tag">${c.name}</span>`).join('');
     })();
 
-    // Carga sugerencias iniciales
     loadSuggestions();
 
     async function loadSuggestions() {
@@ -59,8 +56,7 @@
 
     function render(list = []) {
       grid.innerHTML = list.map(p => {
-        // lógica de URL de imagen: prioriza image_url, luego URLs absolutas en p.image,
-        // finalmente /storage/… si es ruta relativa
+
         let img;
         if (p.image_url) {
           img = p.image_url;

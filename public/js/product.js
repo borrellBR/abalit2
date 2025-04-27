@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       </section>
     `;
 
-    // handlers de cantidad
     document.getElementById('minus').onclick = () => {
       let q = document.getElementById('qty');
       if (+q.value > 1) q.value = +q.value - 1;
