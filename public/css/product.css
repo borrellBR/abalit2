@@ -149,7 +149,7 @@ body {
 
 .btn-cart {
   background: #941b80;
-  color: #fff;
+  color: #000000;
   border: none;
   border-radius: 9999px;
   padding: 1rem 2.5rem;
@@ -176,14 +176,14 @@ body.product-page .topbar .nav-link,
 body.product-page .topbar button,
 body.product-page .topbar input,
 body.product-page .topbar svg {
-  color: #ffffff !important;
-  fill: #ffffff !important;
+  color: #000000 !important;
+  fill: #000000 !important;
 }
 
 /* hover inverso (blanco) */
 body.product-page .topbar .nav-link:hover,
 body.product-page .topbar button:hover {
-  color: #595959 !important;
+  color: #000000 !important;
   fill: #595959 !important;
 }
 
@@ -194,8 +194,8 @@ body.product-page .topbar .search {
 }
 
 body.product-page .topbar .search:focus {
-  border-color: #fff;
-  color: #fff;
+  border-color: #000000;
+  color: #000000;
 }
 
 @media (max-width: 1024px) {
@@ -377,7 +377,7 @@ body.product-page .topbar .nav-link,
 body.product-page .topbar button,
 body.product-page .topbar input,
 body.product-page .topbar svg {
-  color: #ffffff !important;
+  color: #000000 !important;
   fill: #ffffff !important;
 }
 
