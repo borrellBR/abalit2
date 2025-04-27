@@ -6,7 +6,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
 // Referencias al DOM
 const formBox = document.getElementById('formBox');
 const categorySelect = document.getElementById('category');
-const categoriesSection = document.getElementById('categoriesGrid');  // es el que sí existe
+const categoriesSection = document.getElementById('catGrid');  // es el que sí existe
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const productDetailsModal = document.getElementById('productDetailsModal');
@@ -170,17 +170,15 @@ function renderProducts(list) {
     const price = encodeURIComponent(p.price);
 
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card"
-      onclick="location.href='product.html?id=${p.id}'">
-
-        <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
-        <h3>${esc(p.name)}</h3>
-        <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
-        <small>Descripción: ${esc(p.description)}</small>
-         <p>   </p>
-        <small>Precio: ${esc(p.price)} €</small>
-
-
+      <article class="card-new card-new-link"
+               onclick="location.href='product.html?id=${p.id}'">
+        <img src="${imgSrc}" alt="${esc(p.name)}">
+        <div class="info">
+          <h3 class="title-price">${esc(p.name)}</h3>
+          <span class="price">
+            ${Number(p.price).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+          </span>
+        </div>
       </article>
     `);
   });

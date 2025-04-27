@@ -39,7 +39,7 @@ async function loadNewProducts() {
 }
 
 function renderNewIn(list) {
-  const grid = document.getElementById('newGrid');
+  const grid = document.getElementById('productsGrid2');
   if (!grid) return;
   grid.innerHTML = '';
 

@@ -1,0 +1,31 @@
+/* ===========================
+   Navbar en fondo crema → texto e iconos negros
+   =========================== */
+.topbar {
+  background: var(--bg-cream) !important;
+}
+
+/* enlaces, botones e iconos en negro */
+.topbar .nav-link,
+.topbar button,
+.topbar .search input,
+.topbar .cart svg {
+  color: #000 !important;
+  fill: #000 !important;
+  border-color: #000 !important;
+  /* para inputs/botones que dibujan un borde */
+}
+
+/* placeholder del buscador también oscuro */
+.topbar .search input::placeholder {
+  color: #666 !important;
+}
+
+/* hover: invertir a blanco o gris claro para contraste */
+.topbar .nav-link:hover,
+.topbar button:hover,
+.topbar .search input:focus {
+  color: #fff !important;
+  fill: #fff !important;
+  border-color: #fff !important;
+}

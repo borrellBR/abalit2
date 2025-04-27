@@ -5,7 +5,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({
 
 // Referencias al DOM
 const formBox = document.getElementById('formBox');
-const categoriesSection = document.getElementById('categoriesGrid');  // es el que sí existe
+const categoriesSection = document.getElementById('catGrid');  // es el que sí existe
 const productsSection = document.getElementById('productsSection');
 const productsTitle = document.getElementById('productsTitle');
 const searchBox = document.getElementById('searchBox');
@@ -14,7 +14,7 @@ const searchBox = document.getElementById('searchBox');
 document.addEventListener('DOMContentLoaded', () => {
   getCategories();
   document.getElementById('btnSave').addEventListener('click', saveCategory);
-  document.getElementById('categoriesGrid').addEventListener('click', handleGridClick);
+  document.getElementById('catGrid').addEventListener('click', handleGridClick);
 
   if (searchBox) {
     let t;
@@ -156,24 +156,26 @@ async function deleteCategory(id) {
 }
 
 function renderCategories(list) {
-  const grid = document.getElementById('categoriesGrid');
+  const grid = document.getElementById('catGrid');
   grid.innerHTML = '';
 
   list.forEach(c => {
     const imgSrc = c.image ? `/storage/${c.image}` : '';
 
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card"
-       data-id="${c.id}"
-     data-name="${esc(c.name)}"
-     data-description="${esc(c.description)}"
-     style="cursor:pointer"
+      <article class="card-new"
+        data-id="${c.id}"
+        data-name="${esc(c.name)}"
+        data-description="${esc(c.description)}"
+        style="cursor:pointer"
       >
-       <img src="${imgSrc}" class="thumb" alt="${esc(c.name)}">
-     <h3>${esc(c.name)}</h3>
-     <small>${esc(c.description)}</small>
+        <img src="${imgSrc}" alt="${esc(c.name)}">
+        <div class="info">
+          <h3>${esc(c.name)}</h3>
+        </div>
       </article>
     `);
+
   });
 }
 
@@ -231,26 +233,13 @@ function renderProducts(list) {
     const imgSrc = p.image ? `/storage/${p.image}` : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBpbWFnZTwvdGV4dD48L3N2Zz4=';
 
     grid.insertAdjacentHTML('beforeend', `
-      <article class="card">
+      <article class="cardw">
         <img src="${imgSrc}" class="thumb" alt="${esc(p.name)}">
         <h3>${esc(p.name)}</h3>
         <small>Tienda: ${p.category?.name ? esc(p.category.name) : 'Sin categoría'}</small>
-        <small>Descripción: ${esc(p.description)}</small>
 
         <small>Precio: ${esc(p.price)} €</small>
-        <div class="actions">
-          <button class="btn btn-edit"
-            onclick="handlePrepareEdit(${p.id}, ${p.category?.id || 'null'},
-                                      '${encodeURIComponent(p.name)}',
-                                      '${encodeURIComponent(p.description)}',
-                                      '${encodeURIComponent(p.price)}')">
-            Editar
-          </button>
-          <button class="btn btn-delete"
-            onclick="deleteProduct(${p.id})">
-            Eliminar
-          </button>
-        </div>
+
       </article>
     `);
   });

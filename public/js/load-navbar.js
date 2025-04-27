@@ -58,5 +58,8 @@
       window.logout = () => { logout(); renderAuth(); };
       renderAuth();
     };
+
   });
+
+
 })();

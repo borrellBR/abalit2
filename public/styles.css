@@ -3,7 +3,7 @@
   --bg-page: #6b7c8c;
   --bg-card: #fff;
   --radius: .8rem;
-  --shadow: 0 6px 18px rgba(0, 0, 0, .1);
+  --shadow: 0 6px 25px rgba(0, 0, 0, .1);
   --accent: #2563eb;
   --warn: #fbbf24;
   --danger: #f87171;
@@ -71,7 +71,7 @@ body {
 
 /* =====  Wrapper  ===== */
 .wrapper {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 1.5rem auto;
   padding: 0 var(--gap);
 }
@@ -80,7 +80,7 @@ body {
 .grid {
   display: grid;
   gap: var(--gap);
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 
 /* =====  Tarjeta contacto  ===== */
@@ -403,7 +403,7 @@ body {
 
 .card-cat {
   position: relative;
-  border-radius: 18px;
+  border-radius: 25px;
   overflow: hidden;
   height: 180px;
 }
@@ -451,7 +451,7 @@ body {
 
 .card-new img {
   width: 100%;
-  height: 60%;
+  height: 80%;
   object-fit: cover;
 }
 
@@ -487,7 +487,7 @@ body {
 
 .card-cat {
   position: relative;
-  border-radius: 18px;
+  border-radius: 25px;
   overflow: hidden;
   height: 180px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
@@ -529,7 +529,7 @@ body {
 
 .card-new {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 25px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgb(0 0 0 /.08);
   display: flex;
@@ -571,7 +571,7 @@ body {
 
 .card-cat {
   position: relative;
-  border-radius: 18px;
+  border-radius: 25px;
   overflow: hidden;
   cursor: pointer;
   transition: transform .15s;
@@ -842,6 +842,128 @@ body.home-page .hero+* {
   gap: 1rem;
   /* ajusta vertical y horizontalmente */
 }
+
+
+/* Unificar el estilo “Home” en Products y Categories */
+.card-new {
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  /* auto‐height */
+}
+
+.card-new img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  /* cuadrado perfecto */
+  object-fit: cover;
+}
+
+/* 1) Permitir wrapping del título */
+.card-new .info {
+  display: flex;
+  flex-wrap: wrap;
+  /* permitir varias filas */
+  justify-content: center;
+  /* centrar horizontalmente */
+  align-items: center;
+  padding: .75rem 1rem;
+  gap: .5rem;
+  /* un poquito de espacio */
+}
+
+/* 2) El título ocupa todo el ancho disponible y puede hacer wrap */
+.card-new .info .title-price {
+  flex: 1 1 0;
+  /* puede crecer, encoger y partir en 0px */
+  white-space: normal;
+  /* permitir saltos de línea */
+  word-break: break-word;
+  /* partir palabras largas si hace falta */
+  text-align: center;
+  /* centrar el texto */
+  margin: 0;
+  /* quitar márgenes extra */
+}
+
+/* 3) El precio se queda justo al lado, pero si no cabe baja abajo */
+.card-new .info .price {
+  flex: 0 0 auto;
+  /* tamaño fijo al contenido */
+  font-weight: 700;
+  text-align: center;
+}
+
+body {
+  background-color: #f5f4e9 !important;
+  background-image: none !important;
+}
+
+/* ——— Grid responsive de Home “New In” ——— */
+#productsGrid2 {
+  display: grid !important;
+  gap: var(--gap) !important;
+  padding: 0 var(--gap) !important;
+  margin: 3rem !important;
+  /* columnas más pequeñas y adaptables */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+}
+
+/* ——— Card de New In ——— */
+#productsGrid2 .card-new {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+  height: auto !important;
+  /* auto‐height según contenido */
+}
+
+/* ——— Imagen recortada que cubre todo el marco ——— */
+#productsGrid2 .card-new img {
+  width: 100%;
+  height: 350px;
+  /* alto fijo de “marco” */
+  object-fit: cover;
+  /* recorta, pero cubre todo */
+  display: block;
+  /* elimina gaps */
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+/* ——— Info compacta debajo de la foto ——— */
+#productsGrid2 .card-new .info {
+  padding: .5rem 1rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+/* ——— Título y precio inline ——— */
+#productsGrid2 .card-new .title-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  font-size: .85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* ——— Precio ——— */
+#productsGrid2 .card-new .price {
+  font-size: .8rem;
+}
+
 
 
 /* =====  Responsivo  ===== */
